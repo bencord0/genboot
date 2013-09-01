@@ -15,7 +15,7 @@ tar xavpf stage-template.tar.gz -C chroot
 
 set -x
 emerge $EMERGE_FLAGS --config-root=chroot --root=chroot-prepare \
-    --oneshot world
+    world
 
 emerge $EMERGE_FLAGS --usepkgonly --config-root=chroot --root=chroot \
     --oneshot --nodeps $DBUS_DEPS
