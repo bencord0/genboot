@@ -13,13 +13,21 @@ rm -rf "chroot"
 mkdir "chroot-prepare" "chroot"
 tar xavpf stage-template.tar.gz -C chroot
 
+# Stop when things go wrong
 set -x
+
+# Building binary packages also installs compile-time dependencies
 emerge $EMERGE_FLAGS --config-root=chroot --root=chroot-prepare \
     world
 
+# Only install the runtime dependencies
+# note: dbus's pkg_setup phase needs some files to exist in the chroot
 emerge $EMERGE_FLAGS --usepkgonly --config-root=chroot --root=chroot \
     --oneshot --nodeps $DBUS_DEPS
 emerge $EMERGE_FLAGS --usepkgonly --config-root=chroot --root=chroot \
     world
+
+# Blank out the default root password
+sed -i -e '/root/ s/*//' chroot/etc/shadow
 
 tar cJf stage3-systemd.tar.xz -C chroot .

@@ -1,12 +1,12 @@
 ./etc/portage/package.keywords/ # empty dir
 ./etc/portage/package.use/      # empty dir
-./etc/portage/make.conf
+./etc/portage/make.conf         # see below
 ./etc/make.profile              # symlink to /usr/portage/profiles/default/linux/amd64/13.0
 ./proc/                         # empty dir
 ./sys/                          # empty dir
 ./dev/                          # empty dir
 ./usr/portage/                  # empty dir
-./var/lib/portage/world
+./var/lib/portage/world         # see below
 
 make.conf
 ---------
