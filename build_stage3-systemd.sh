@@ -14,7 +14,7 @@ mkdir "chroot-prepare" "chroot"
 tar xavpf stage-template.tar.gz -C chroot
 
 # Stop when things go wrong
-set -x
+set -ex
 
 # Building binary packages also installs compile-time dependencies
 emerge $EMERGE_FLAGS --config-root=chroot --root=chroot-prepare \
