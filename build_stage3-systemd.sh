@@ -11,6 +11,7 @@ DBUS_DEPS="sys-libs/glibc \
 
 rm -rf "chroot"
 mkdir "chroot-prepare" "chroot"
+tar xavpf stage-template.tar.gz -C chroot-prepare
 tar xavpf stage-template.tar.gz -C chroot
 
 # Stop when things go wrong
@@ -19,9 +20,9 @@ set -ex
 # note: dbus's pkg_setup phase needs some files to exist in the chroot
 
 # Building binary packages also installs compile-time dependencies
-emerge $EMERGE_FLAGS --config-root=chroot --root=chroot-prepare \
+emerge $EMERGE_FLAGS --config-root=chroot-prepare --root=chroot-prepare \
     --oneshot --nodeps $DBUS_DEPS
-emerge $EMERGE_FLAGS --config-root=chroot --root=chroot-prepare \
+emerge $EMERGE_FLAGS --config-root=chroot-prepare --root=chroot-prepare \
     world
 
 # Only install the runtime dependencies
