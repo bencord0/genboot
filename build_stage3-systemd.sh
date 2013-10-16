@@ -4,6 +4,7 @@ cd "$TOPDIR"
 
 EMERGE_FLAGS="--buildpkg --update --jobs"
 DBUS_DEPS="sys-libs/glibc \
+    sys-libs/cracklib \
     sys-libs/pam \
     sys-auth/pambase \
     sys-apps/shadow \
