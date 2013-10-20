@@ -6,7 +6,6 @@ EMERGE_FLAGS="--buildpkg --update --jobs"
 DBUS_DEPS="sys-libs/glibc \
     sys-libs/cracklib \
     sys-libs/pam \
-    sys-auth/pambase \
     sys-apps/shadow \
     sys-apps/baselayout"
 
@@ -21,14 +20,18 @@ set -ex
 # note: dbus's pkg_setup phase needs some files to exist in the chroot
 
 # Building binary packages also installs compile-time dependencies
-emerge $EMERGE_FLAGS --config-root=chroot-prepare --root=chroot-prepare \
+emerge $EMERGE_FLAGS --usepkg --config-root=chroot-prepare --root=chroot-prepare \
     --oneshot --nodeps $DBUS_DEPS
-emerge $EMERGE_FLAGS --config-root=chroot-prepare --root=chroot-prepare \
+emerge $EMERGE_FLAGS --usepkg --config-root=chroot-prepare --root=chroot-prepare \
+    --oneshot --nodeps sys-auth/pambase
+emerge $EMERGE_FLAGS --usepkg --config-root=chroot-prepare --root=chroot-prepare \
     world
 
 # Only install the runtime dependencies
 emerge $EMERGE_FLAGS --usepkgonly --config-root=chroot --root=chroot \
     --oneshot --nodeps $DBUS_DEPS
+emerge $EMERGE_FLAGS --usepkgonly --config-root=chroot --root=chroot \
+    --oneshot --nodeps sys-auth/pambase
 emerge $EMERGE_FLAGS --usepkgonly --config-root=chroot --root=chroot \
     world
 
