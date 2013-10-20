@@ -46,4 +46,4 @@ ln -s 'chroot/usr/lib64/systemd/system/dhcpcd.service' \
     'chroot/etc/systemd/system/multi-user.target.wants/dhcpcd.service'
 
 tar cJf stage3-systemd.tar.xz -C chroot .
-test -x "$(which mksquashfs)" && (rm systemd.squashfs; mksquashfs chroot systemd.squashfs)
+test -x "$(which mksquashfs)" && (rm systemd.squashfs||true; mksquashfs chroot systemd.squashfs)
