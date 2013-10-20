@@ -38,4 +38,7 @@ emerge $EMERGE_FLAGS --usepkgonly --config-root=chroot --root=chroot \
 # Blank out the default root password
 sed -i -e '/root/ s/*//' chroot/etc/shadow
 
+# Don't bother looking for other filesystems (esp. SWAP)
+echo -n > chroot/etc/fstab
+
 tar cJf stage3-systemd.tar.xz -C chroot .
