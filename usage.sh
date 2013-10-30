@@ -57,6 +57,7 @@ systemctl start sshd
 # Manually make the symlinks, orphans will eventually be replaced
 ln -sf /usr/x86_64-pc-linux-gnu/binutils-bin/2.23.2/* /usr/bin
 emerge binutils
+source /etc/profile
 
 emerge -uDNvj dev-vcs/git world 
 
