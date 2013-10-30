@@ -59,7 +59,7 @@ ln -sf /usr/x86_64-pc-linux-gnu/binutils-bin/2.23.2/* /usr/bin
 emerge binutils
 source /etc/profile
 
-emerge -uDNvj dev-vcs/git world 
+emerge -uDNvj dev-vcs/git world
 
 git clone https://gist.github.com/6407310.git
 (cd /; patch -p0 -l < /root/6407310/user.eclass.patch)
@@ -67,3 +67,6 @@ git clone https://gist.github.com/6407310.git
 cd 6407310
 bash stage-template.sh
 bash build_stage3-systemd.sh
+bash build_kernel.sh
+bash prepare_dracut.sh
+bash build_initrd.sh
