@@ -54,7 +54,7 @@ cat << EOF > 81squashedaufs-root/cmdline-squashedaufs-root.sh
 #!/bin/sh
 case "$root" in
     *.squashfs)
-        wait_for_dev "$root"
+        wait_for_dev "\$root"
         rootok=1
         USING_SQUASHEDAUFS=1
         ;;
