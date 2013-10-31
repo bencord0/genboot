@@ -72,7 +72,7 @@ mount_squashfs_as_aufs()
 
     info "Mounting squashfs"
     mkdir -p /squashroot
-    mount -t squashfs "$root" /squashroot
+    mount -t squashfs "\$root" /squashroot
 
     info "Unioning rootfs"
     mount -t aufs -o br:/tmproot:/squashroot none /sysroot
