@@ -14,8 +14,8 @@ depends() {
 }
 
 install() {
-    inst "$moddir/console-tty0.conf" /etc/cmdline.d/console-tty0.conf
-    inst "$moddir/console-ttyS0.conf" /etc/cmdline.d/console=ttyS0.conf
+    inst "\$moddir/console-tty0.conf" /etc/cmdline.d/console-tty0.conf
+    inst "\$moddir/console-ttyS0.conf" /etc/cmdline.d/console=ttyS0.conf
 }
 EOF
 chmod +x 80console/module-setup.sh
@@ -35,10 +35,10 @@ depends() {
 }
 
 install() {
-    inst_hook cmdline 81 "$moddir/cmdline-squashedaufs-root.sh"
-    inst_hook pre-mount 81 "$moddir/mount-squashedaufs-root.sh"
-    inst_hook pre-pivot 81 "$moddir/pre-pivot-squashedaufs-root.sh"
-    inst "$moddir/squashedaufs-root.conf" /etc/cmdline.d/squashedaufs-root.conf
+    inst_hook cmdline 81 "\$moddir/cmdline-squashedaufs-root.sh"
+    inst_hook pre-mount 81 "\$moddir/mount-squashedaufs-root.sh"
+    inst_hook pre-pivot 81 "\$moddir/pre-pivot-squashedaufs-root.sh"
+    inst "\$moddir/squashedaufs-root.conf" /etc/cmdline.d/squashedaufs-root.conf
 }
 EOF
 chmod +x 81squashedaufs-root/module-setup.sh
