@@ -52,7 +52,7 @@ chmod +x 81squashedaufs-root/module-setup.sh
 
 cat << EOF > 81squashedaufs-root/cmdline-squashedaufs-root.sh
 #!/bin/sh
-case "$root" in
+case "\$root" in
     *.squashfs)
         wait_for_dev "\$root"
         rootok=1
