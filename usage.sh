@@ -70,4 +70,4 @@ bash build_stage3.sh
 bash build_squashfs.sh
 bash build_kernel.sh
 bash prepare_dracut.sh
-bash build_initrd.sh
+bash build_initramfs.sh
