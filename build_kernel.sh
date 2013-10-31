@@ -5,7 +5,7 @@ emerge -u sys-kernel/aufs-sources
 cd /usr/src/linux
 
 zcat /proc/config.gz > .config
-yes|make silentoldconfig
+make olddefconfig
 make targz-pkg
 
 cd /
