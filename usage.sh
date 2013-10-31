@@ -66,7 +66,8 @@ git clone https://gist.github.com/6407310.git
 
 cd 6407310
 bash stage-template.sh
-bash build_stage3-systemd.sh
+bash build_stage3.sh
+bash build_squashfs.sh
 bash build_kernel.sh
 bash prepare_dracut.sh
 bash build_initrd.sh
