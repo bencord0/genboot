@@ -1,6 +1,10 @@
 #!/bin/bash
 cd /usr/lib/dracut/modules.d
 
+
+###########
+# Console #
+###########
 mkdir -p 80console
 cat << EOF > 80console/module-setup.sh
 #!/bin/bash
@@ -23,6 +27,9 @@ chmod +x 80console/module-setup.sh
 echo 'console=tty0' > 80console/console-tty0.conf
 echo 'console=ttyS0' > 80console/console-ttyS0.conf
 
+##################################
+# Rootfs = aufs(squashfs, tmpfs) #
+##################################
 mkdir -p 81squashedaufs-root
 cat << EOF > 81squashedaufs-root/module-setup.sh
 #!/bin/bash
@@ -48,7 +55,7 @@ cat << EOF > 81squashedaufs-root/cmdline-squashedaufs-root.sh
 case "$root" in
     *.squashfs)
         wait_for_dev "$root"
-        rootok = 1
+        rootok=1
         USING_SQUASHEDAUFS=1
         ;;
 esac
