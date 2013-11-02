@@ -68,7 +68,7 @@ mount_squashfs_as_aufs()
 {
     info "Creating a tmpfs for root"
     mkdir -p /tmproot
-    mount -t tmpfs tmpfs /tmproot
+    mount -t tmpfs tmpfs /tmproot -o size=90%
 
     info "Mounting squashfs"
     mkdir -p /squashroot
