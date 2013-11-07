@@ -67,12 +67,15 @@ ln -sf /usr/x86_64-pc-linux-gnu/binutils-bin/2.23.2/* /usr/bin
 emerge binutils
 source /etc/profile
 
+mkdir -p /etc/portage/package.use
+tee -a /etc/portage/package.use/dev-vcs \
+    <<< 'dev-vcs/git -pcre -perl -python -webdav'
 emerge -uDNvj dev-vcs/git world
 
 cd genboot
 set -e
 
-git clone https://gist.github.com/genboot.git
+git clone https://github.com/bencord0/genboot.git
 (cd /; patch -p0 -l < /root/genboot/user.eclass.patch)
 
 bash stage-template.sh
