@@ -64,13 +64,13 @@ systemctl start sshd
 # For some reason, binutils postinstall actions are not run properly.
 # Manually make the symlinks, orphans will eventually be replaced
 ln -sf /usr/x86_64-pc-linux-gnu/binutils-bin/2.23.2/* /usr/bin
-emerge binutils --usepkg
+emerge binutils --usepkg --update
 source /etc/profile
 
 mkdir -p /etc/portage/package.use
 tee -a /etc/portage/package.use/dev-vcs \
     <<< 'dev-vcs/git -pcre -perl -python -webdav'
-emerge -uDNvj dev-vcs/git world
+emerge -uDNvj dev-vcs/git world --usepkg --update
 
 cd genboot
 set -e
