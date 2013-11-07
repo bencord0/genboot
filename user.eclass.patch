@@ -1,0 +1,37 @@
+--- /usr/portage/eclass/user.eclass.orig     2012-06-22 20:31:13.000000000 +0100
++++ /usr/portage/eclass/user.eclass          2013-09-01 16:03:48.000000000 +0100
+@@ -92,9 +92,13 @@
+                grep "${key}:\*:" /etc/${db}
+                ;;
+        *)
+-               # ignore output if nscd doesn't exist, or we're not running as root
+-               nscd -i "${db}" 2>/dev/null
+-               getent "${db}" "${key}"
++               if [[ "${ROOT}" != "/" ]] ; then
++                       chroot "${ROOT}" getent "${db}" "${key}"
++               else
++                       # ignore output if nscd doesn't exist, or we're not running as root
++                       nscd -i "${db}" 2>/dev/null
++                       getent "${db}" "${key}"
++               fi
+                ;;
+        esac
+ }
+@@ -247,7 +251,7 @@
+                ;;
+
+        *)
+-               useradd -r "${opts[@]}" "${euser}" || die
++               useradd -R "${ROOT}" -r "${opts[@]}" "${euser}" || die
+                ;;
+        esac
+
+@@ -340,7 +344,7 @@
+                        opts="-g ${egid}"
+                fi
+                # We specify -r so that we get a GID in the system range from login.defs
+-               groupadd -r ${opts} "${egroup}" || die
++               groupadd -R "${ROOT}" -r ${opts} "${egroup}" || die
+                ;;
+        esac
+ }
