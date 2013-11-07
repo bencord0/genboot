@@ -1,3 +1,11 @@
+#!/bin/bash
+###########
+# Genboot #
+###########
+#
+# A framework for building boot environments
+############################################
+#
 # Example usage in clean qemu environment
 #
 # $ qemu-kvm \
@@ -61,10 +69,12 @@ source /etc/profile
 
 emerge -uDNvj dev-vcs/git world
 
-git clone https://gist.github.com/6407310.git
-(cd /; patch -p0 -l < /root/6407310/user.eclass.patch)
+cd genboot
+set -e
 
-cd 6407310
+git clone https://gist.github.com/genboot.git
+(cd /; patch -p0 -l < /root/genboot/user.eclass.patch)
+
 bash stage-template.sh
 bash build_stage3.sh
 bash build_squashfs.sh
