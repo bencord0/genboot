@@ -3,7 +3,7 @@ set -x
 TOPDIR=$(dirname $0)
 cd "$TOPDIR"
 
-EMERGE_FLAGS="--buildpkg --update --jobs"
+EMERGE_FLAGS="--buildpkg --update --jobs --deep --newuse"
 DBUS_DEPS="sys-libs/glibc \
     sys-libs/cracklib \
     sys-libs/pam \
