@@ -74,7 +74,12 @@ grep 'dev-vcs/git' /etc/portage/package.use/dev-vcs \
     <<< 'dev-vcs/git -pcre -perl -python -webdav'
 emerge -uDNvj dev-vcs/git world --usepkg --update
 
-git clone https://github.com/bencord0/genboot.git
+if [ -d /root/genboot ];
+then
+    git clone https://github.com/bencord0/genboot.git /root/genboot
+else
+    (cd /root/genboot; git pull)
+fi
 (cd /; patch -p0 -l -N < /root/genboot/user.eclass.patch)
 
 set -e
