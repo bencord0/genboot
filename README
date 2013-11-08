@@ -50,6 +50,7 @@
 # Once the VM has booted, root login is permitted (without password)
 
 # Set SYNC and GENTOO_MIRRORS variables in /etc/portage/make.conf first.
+set -x
 emerge --sync
 eix-update
 

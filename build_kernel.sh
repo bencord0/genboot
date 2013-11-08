@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 MAKEOPTS="-j$(grep processor /proc/cpuinfo|wc -l)"
 
 emerge -u sys-kernel/aufs-sources

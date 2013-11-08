@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 TOPDIR=$(dirname $0)
 cd "$TOPDIR"
 
