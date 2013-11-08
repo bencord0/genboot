@@ -80,6 +80,7 @@ git clone https://github.com/bencord0/genboot.git
 set -e
 cd genboot
 bash stage-template.sh
+bash prepare_portage.sh
 bash build_stage3.sh
 bash build_squashfs.sh
 bash build_kernel.sh
