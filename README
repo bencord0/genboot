@@ -68,7 +68,8 @@ emerge binutils --usepkg --update
 source /etc/profile
 
 mkdir -p /etc/portage/package.use
-grep 'dev-vcs/git' || tee -a /etc/portage/package.use/dev-vcs \
+grep 'dev-vcs/git' /etc/portage/package.use/dev-vcs \
+    || tee -a /etc/portage/package.use/dev-vcs \
     <<< 'dev-vcs/git -pcre -perl -python -webdav'
 emerge -uDNvj dev-vcs/git world --usepkg --update
 
