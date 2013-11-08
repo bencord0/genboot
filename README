@@ -73,11 +73,10 @@ grep 'dev-vcs/git' /etc/portage/package.use/dev-vcs \
     <<< 'dev-vcs/git -pcre -perl -python -webdav'
 emerge -uDNvj dev-vcs/git world --usepkg --update
 
-set -e
-
 git clone https://github.com/bencord0/genboot.git
 (cd /; patch -p0 -l -N < /root/genboot/user.eclass.patch)
 
+set -e
 cd genboot
 bash stage-template.sh
 bash build_stage3.sh
