@@ -32,7 +32,7 @@ cat << EOF > stage-template/etc/portage/make.conf
 ACCEPT_KEYWORDS="~amd64"
 FEATURES="buildpkg parallel-fetch parallel-install"
 MAKEOPTS="-j8"
-USE="-bindist -consolekit systemd"
+USE="-bindist -caps -consolekit systemd"
 EOF
 
 cat << EOF > stage-template/var/lib/portage/world
