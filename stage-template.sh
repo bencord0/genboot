@@ -17,6 +17,10 @@ for dir in $DIRS; do
     mkdir -p stage-template/$dir
 done
 
+cat << EOF > stage-template/etc/portage/package.mask
+=sys-libs/pam-1.1.6-r2
+EOF
+
 ln -sf /usr/portage/profiles/default/linux/amd64/13.0 stage-template/etc/make.profile
 
 cat << EOF > stage-template/etc/portage/make.conf
