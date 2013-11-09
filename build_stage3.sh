@@ -46,4 +46,23 @@ echo -n > chroot/etc/fstab
 ln -s 'chroot/usr/lib64/systemd/system/dhcpcd.service' \
     'chroot/etc/systemd/system/multi-user.target.wants/dhcpcd.service'
 
+# Autologin
+mkdir -p chroot/etc/systemd/system/getty@tty1.service.d
+cat << EOF > chroot/etc/systemd/system/getty@tty1.service.d/autologin.conf
+[Service]
+ExecStart=
+ExecStart=-/usr/bin/agetty --autologin root --noclear %I 38400 linux
+EOF
+mkdir -p chroot/etc/systemd/system/serial-getty@ttyS0.service.d
+cat << EOF > chroot/etc/systemd/system/serial-getty@ttyS0.service.d/autologin.conf
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --autologin root -s %I 115200,38400,9600 vt102
+Type=simple
+EOF
+
+# Cloud-init
+cp cloud-init-gist chroot/etc/local.d/cloud-init
+chmod +x chroot/etc/local.d/cloud-init
+
 tar cJf /root/stage3-systemd.tar.xz -C chroot .
