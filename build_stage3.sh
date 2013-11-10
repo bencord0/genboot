@@ -4,12 +4,16 @@ TOPDIR=$(dirname $0)
 cd "$TOPDIR"
 
 EMERGE_FLAGS="--buildpkg --update --jobs --deep --newuse"
+# sys-libs/pam needs yacc to compile, but is not needed in the final rootfs
+HDEPEND=" \
+    virtual/yacc \
+"
 DBUS_DEPS="sys-libs/glibc \
     sys-libs/cracklib \
     sys-libs/pam \
     sys-apps/shadow \
-    sys-apps/baselayout"
-
+    sys-apps/baselayout \
+"
 rm -rf "chroot"
 mkdir "chroot-prepare" "chroot"
 tar xavpf stage-template.tar.gz -C chroot-prepare
@@ -19,7 +23,9 @@ tar xavpf stage-template.tar.gz -C chroot
 set -ex
 
 # note: dbus's pkg_setup phase needs some files to exist in the chroot
-
+# note: pam, an install dependency of dbus, has a compile dependency on yacc
+emerge $EMERGE_FLAGS --usepkg \
+    $HDEPEND
 # Building binary packages also installs compile-time dependencies
 emerge $EMERGE_FLAGS --usepkg --config-root=chroot-prepare --root=chroot-prepare \
     --oneshot --nodeps $DBUS_DEPS

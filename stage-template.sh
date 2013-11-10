@@ -17,9 +17,8 @@ for dir in $DIRS; do
     mkdir -p stage-template/$dir
 done
 
-cat << EOF > stage-template/etc/portage/package.mask
-=sys-libs/pam-1.1.6-r2
-EOF
+#cat << EOF > stage-template/etc/portage/package.mask
+#EOF
 
 cat << EOF > stage-template/etc/portage/package.use/sys-fs
 # Reduce the dependency on ruby
