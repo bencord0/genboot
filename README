@@ -76,9 +76,9 @@ emerge -uDNvj dev-vcs/git world --usepkg --update
 
 if [ -d /root/genboot ];
 then
-    git clone https://github.com/bencord0/genboot.git /root/genboot
-else
     (cd /root/genboot; git pull)
+else
+    git clone https://github.com/bencord0/genboot.git /root/genboot
 fi
 (cd /; patch -p0 -l -N < /root/genboot/user.eclass.patch)
 
