@@ -3,7 +3,7 @@ set -x
 TOPDIR=$(dirname $0)
 cd "$TOPDIR"
 
-EMERGE_FLAGS="--buildpkg --update --jobs --deep --newuse"
+EMERGE_FLAGS="--buildpkg --getbinpkg --update --jobs --deep --newuse"
 # sys-libs/pam needs yacc to compile, but is not needed in the final rootfs
 HDEPEND=" \
     virtual/yacc \
