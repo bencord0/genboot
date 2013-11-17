@@ -48,6 +48,9 @@ sed -i -e '/root/ s/*//' chroot/etc/shadow
 # Don't bother looking for other filesystems (esp. SWAP)
 echo -n > chroot/etc/fstab
 
+# List mounts correctly
+ln -sf /proc/mounts chroot/etc/mtab
+
 # Start networking on boot
 ln -s 'chroot/usr/lib64/systemd/system/dhcpcd.service' \
     'chroot/etc/systemd/system/multi-user.target.wants/dhcpcd.service'
