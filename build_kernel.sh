@@ -1,8 +1,9 @@
 #!/bin/bash
 set -x
 MAKEOPTS="-j$(grep processor /proc/cpuinfo|wc -l)"
+EMERGE_FLAGS="--buildpkg --getbinpkg --update --jobs --deep --newuse"
 
-emerge -u sys-kernel/aufs-sources
+emerge $EMERGE_FLAGS --usepkg  sys-kernel/aufs-sources
 
 cd /usr/src/linux
 
