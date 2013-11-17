@@ -32,7 +32,7 @@ emerge $EMERGE_FLAGS --usepkg --config-root=chroot-prepare --root=chroot-prepare
 emerge $EMERGE_FLAGS --usepkg --config-root=chroot-prepare --root=chroot-prepare \
     --oneshot --nodeps sys-auth/pambase
 emerge $EMERGE_FLAGS --usepkg --config-root=chroot-prepare --root=chroot-prepare \
-    world
+    --with-bdeps=y --complete-graph=y world
 
 # Only install the runtime dependencies
 emerge $EMERGE_FLAGS --usepkgonly --config-root=chroot --root=chroot \
