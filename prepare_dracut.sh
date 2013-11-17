@@ -86,14 +86,14 @@ fi
 EOF
 chmod +x 81squashedaufs-root/mount-squashedaufs-root.sh
 
-cat << EOF >> 81squashedaufs-root/pre-pivot-squashedaufs-root.sh
+cat << EOF > 81squashedaufs-root/pre-pivot-squashedaufs-root.sh
 #!/bin/bash
 mkdir -p /sysroot/lib/modules
 cp -r /lib/modules/* /sysroot/lib/modules/
 EOF
 chmod +x 81squashedaufs-root/pre-pivot-squashedaufs-root.sh
 
-echo 'root=/root.squashfs' >> 81squashedaufs-root/squashedaufs-root.conf
+echo 'root=/root.squashfs' > 81squashedaufs-root/squashedaufs-root.conf
 
 ################
 # Init systemd #
