@@ -81,7 +81,7 @@ then
 else
     git clone https://github.com/bencord0/genboot.git /root/genboot
 fi
-(cd /; patch -p0 -l -N < /root/genboot/user.eclass.patch)
+(cd /; patch -p0 -l -N < /root/genboot/user.eclass.patch) || true
 
 cd genboot
 bash stage-template.sh
