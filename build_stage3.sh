@@ -16,7 +16,12 @@ DBUS_DEPS="sys-libs/glibc \
 "
 rm -rf "chroot"
 mkdir "chroot-prepare" "chroot"
-tar xavpf stage-template.tar.gz -C chroot-prepare
+tar xavpf stage-template.tar.gz -C chroot-prepare && {
+    grep MAKEOPTS /etc/portage/make.conf >> chroot-prepare/etc/portage/make.conf
+    grep SYNC /etc/portage/make.conf >> chroot-prepare/etc/portage/make.conf
+    grep GENTOO_MIRRORS /etc/portage/make.conf >> chroot-prepare/etc/portage/make.conf
+    grep PORTAGE_BINHOST /etc/portage/make.conf >> chroot-prepare/etc/portage/make.conf
+}
 tar xavpf stage-template.tar.gz -C chroot
 
 # Stop when things go wrong
