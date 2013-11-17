@@ -94,3 +94,27 @@ EOF
 chmod +x 81squashedaufs-root/pre-pivot-squashedaufs-root.sh
 
 echo 'root=/root.squashfs' >> 81squashedaufs-root/squashedaufs-root.conf
+
+################
+# Init systemd #
+################
+mkdir -p 82initsystemd
+cat << EOF > 82initsystemd/module-setup.sh
+#!/bin/bash
+
+check() {
+    return 0
+}
+
+depends() {
+    return 0
+}
+
+install() {
+    inst "\$moddir/console-initsystemd.conf" /etc/cmdline.d/console-initsystemd.conf
+}
+EOF
+chmod +x 82initsystemd/module-setup.sh
+
+echo 'init=/usr/lib/systemd/systemd' > 82initsystemd/console-initsystemd.conf
+
