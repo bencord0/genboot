@@ -62,6 +62,7 @@ systemctl start sshd
 # Run /usr/bin/passwd to set a password and enable remote logins
 # (optional) passwd
 
+set -e
 # For some reason, binutils postinstall actions are not run properly.
 # Manually make the symlinks, orphans will eventually be replaced
 ln -sf /usr/x86_64-pc-linux-gnu/binutils-bin/2.23.2/* /usr/bin
@@ -82,7 +83,6 @@ else
 fi
 (cd /; patch -p0 -l -N < /root/genboot/user.eclass.patch)
 
-set -e
 cd genboot
 bash stage-template.sh
 bash build_stage3.sh
