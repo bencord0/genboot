@@ -73,7 +73,7 @@ mkdir -p /etc/portage/package.use
 grep 'dev-vcs/git' /etc/portage/package.use/dev-vcs \
     || tee -a /etc/portage/package.use/dev-vcs \
     <<< 'dev-vcs/git -pcre -perl -python -webdav'
-emerge -uDNvj dev-vcs/git world --usepkg --update
+emerge -uDNvj dev-vcs/git world --usepkg --getbinpkg --update
 
 if [ -d /root/genboot ];
 then
