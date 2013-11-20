@@ -34,9 +34,7 @@ RUN_CMD = [
 @contextmanager
 def start_program(args):
     p = subprocess.Popen(args, stdin=PIPE, stdout=PIPE)
-    print("start_program: begin")
     yield p
-    print("start_program: end")
     if p.poll() is None:
         p.kill()
 
