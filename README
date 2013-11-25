@@ -90,3 +90,4 @@ bash build_squashfs.sh
 bash build_kernel.sh
 bash prepare_dracut.sh
 bash build_initramfs.sh
+bash pack_portdir.sh
