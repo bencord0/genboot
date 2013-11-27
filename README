@@ -66,7 +66,7 @@ set -e
 # If, for some reason, binutils is not installed with $ROOT/usr/portage/profiles
 # programs like ar and ld can't be found.
 # make the symlinks by calling binutils-config when a real portage tree exists
-ar -h || {
+ar -V || {
     source /etc/env.d/binutils/$(gcc -dumpmachine)-*
     binutils-config "$TARGET-$VER" && env-update
     source /etc/profile
