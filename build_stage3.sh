@@ -32,21 +32,21 @@ set -ex
 emerge $EMERGE_FLAGS --usepkg \
     $HDEPEND
 # Building binary packages also installs compile-time dependencies
-export EPREFIX="${TOPDIR}"/chroot-prepare
-emerge $EMERGE_FLAGS --usepkg --config-root=$EPREFIX --root=$EPREFIX \
+export ROOT="${TOPDIR}"/chroot-prepare
+emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps $DBUS_DEPS
-emerge $EMERGE_FLAGS --usepkg --config-root=$EPREFIX --root=$EPREFIX \
+emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps sys-auth/pambase
-emerge $EMERGE_FLAGS --usepkg --config-root=$EPREFIX --root=$EPREFIX \
+emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --with-bdeps=y --complete-graph=y world
 
 # Only install the runtime dependencies
-export EPREFIX="${TOPDIR}"/chroot
-emerge $EMERGE_FLAGS --usepkgonly --config-root=$EPREFIX --root=$EPREFIX \
+export ROOT="${TOPDIR}"/chroot
+emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps $DBUS_DEPS
-emerge $EMERGE_FLAGS --usepkgonly --config-root=$EPREFIX --root=$EPREFIX \
+emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps sys-auth/pambase
-emerge $EMERGE_FLAGS --usepkgonly --config-root=$EPREFIX --root=$EPREFIX \
+emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     world
 
 # Blank out the default root password
