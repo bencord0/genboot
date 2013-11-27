@@ -72,11 +72,13 @@ ar -h || {
     source /etc/profile
 }
 
-mkdir -p /etc/portage/package.use
-grep 'dev-vcs/git' /etc/portage/package.use/dev-vcs \
-    || tee -a /etc/portage/package.use/dev-vcs \
-    <<< 'dev-vcs/git -pcre -perl -python -webdav'
-emerge -uDNvj dev-vcs/git world --usepkg --getbinpkg --update
+git --version || {
+    mkdir -p /etc/portage/package.use
+    grep 'dev-vcs/git' /etc/portage/package.use/dev-vcs \
+        || tee -a /etc/portage/package.use/dev-vcs \
+        <<< 'dev-vcs/git -pcre -perl -python -webdav'
+    emerge -uDNvj dev-vcs/git --usepkg --getbinpkg --update
+}
 
 if [ -d /root/genboot ];
 then
