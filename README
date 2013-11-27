@@ -63,11 +63,14 @@ systemctl start sshd
 # (optional) passwd
 
 set -e
-# For some reason, binutils postinstall actions are not run properly.
-# Manually make the symlinks, orphans will eventually be replaced
-ln -sf /usr/x86_64-pc-linux-gnu/binutils-bin/2.23.2/* /usr/bin
-emerge binutils --usepkg --getbinpkg --update
-source /etc/profile
+# If, for some reason, binutils is not installed with $ROOT/usr/portage/profiles
+# programs like ar and ld can't be found.
+# make the symlinks by calling binutils-config when a real portage tree exists
+ar -h || {
+    source /etc/env.d/binutils/$(gcc -dumpmachine)-*
+    binutils-config "$TARGET-$VER" && env-update
+    source /etc/profile
+}
 
 mkdir -p /etc/portage/package.use
 grep 'dev-vcs/git' /etc/portage/package.use/dev-vcs \
