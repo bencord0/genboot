@@ -32,7 +32,7 @@ set -ex
 emerge $EMERGE_FLAGS --usepkg \
     $HDEPEND
 # Building binary packages also installs compile-time dependencies
-export EPREFIX=/root/chroot-prepare
+export EPREFIX="${TOPDIR}"/chroot-prepare
 emerge $EMERGE_FLAGS --usepkg --config-root=$EPREFIX --root=$EPREFIX \
     --oneshot --nodeps $DBUS_DEPS
 emerge $EMERGE_FLAGS --usepkg --config-root=$EPREFIX --root=$EPREFIX \
@@ -41,7 +41,7 @@ emerge $EMERGE_FLAGS --usepkg --config-root=$EPREFIX --root=$EPREFIX \
     --with-bdeps=y --complete-graph=y world
 
 # Only install the runtime dependencies
-export EPREFIX=/root/chroot
+export EPREFIX="${TOPDIR}"/chroot
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$EPREFIX --root=$EPREFIX \
     --oneshot --nodeps $DBUS_DEPS
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$EPREFIX --root=$EPREFIX \
