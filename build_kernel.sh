@@ -9,10 +9,8 @@ cd /usr/src/linux
 
 zcat /proc/config.gz > .config
 make olddefconfig
+make kvmconfig
 make $MAKEOPTS targz-pkg
 
-cd /
-tar xzvf /usr/src/linux/linux*.tar.gz
-
-depmod
-cp /boot/vmlinuz* /root/vmlinuz
+cp "$(make image_name)" /root/vmlinuz
+cp linux-"$(make kernelrelease)"-x86.tar.gz /root/linux-image.tar.gz
