@@ -39,6 +39,7 @@ app-portage/eix
 net-dns/bind-tools
 net-misc/dhcpcd
 sys-apps/dbus
+sys-apps/gentoo-systemd-integration
 sys-apps/iproute2
 sys-apps/systemd
 sys-boot/grub
