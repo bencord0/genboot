@@ -46,7 +46,8 @@ def get_gist_url():
     return "https://gist.github.com/" + gist
 
 def parse_gist_for_raw_url(gist_html):
-    rawline = [l for l in gist_html.split('\n') if 'View Raw' in l][0]
+    lines = gist_html.decode().splitlines()
+    rawline = [l for l in lines if 'View Raw' in l][0]
     url = [l for l in rawline.split() if
            'href=' in l][0].split('=', 1)[1].strip('"')
     return "https://gist.github.com" + url
@@ -66,7 +67,7 @@ def main():
     gist = requests.get(gist_url).text
     script_url = parse_gist_for_raw_url(gist)
     with executingtemporaryfile() as t:
-        t.write(requests.get(script_url).text)
+        t.write(requests.get(script_url).text.decode())
 
 
 if __name__ == '__main__':
