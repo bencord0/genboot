@@ -92,7 +92,8 @@ cd genboot
 bash stage-template.sh
 bash build_stage3.sh
 bash build_squashfs.sh
-bash build_kernel.sh
+bash build_modules.sh
 bash prepare_dracut.sh
 bash build_initramfs.sh
+bash build_vmlinuz.sh
 bash pack_portdir.sh

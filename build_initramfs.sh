@@ -1,8 +1,9 @@
 #!/bin/bash
 set -x
+KVER=$(cd /usr/src/linux; make kernelrelease)
 
-dracut -f /root/initramfs -i /root/systemd.squashfs /root.squashfs 
+dracut -f /root/initramfs $KVER -i /root/systemd.squashfs /root.squashfs 
 chmod a+r /root/initramfs
 
-dracut -f /root/initramfs.nosquash
+dracut -f /root/initramfs.nosquash $KVER
 chmod a+r /root/initramfs.nosquash
