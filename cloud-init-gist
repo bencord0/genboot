@@ -57,7 +57,7 @@ def executingtemporaryfile():
     tfd, tname = tempfile.mkstemp()
     with os.fdopen(tfd, "w") as t:
         yield t
-    os.chmod(tname, 0700)
+    os.chmod(tname, 700)
     subprocess.call(tname.split())
     os.remove(tname)
 
