@@ -3,7 +3,7 @@ set -x
 MAKEOPTS="-j$(grep processor /proc/cpuinfo|wc -l)"
 
 INITRAMFS=initramfs
-gunzip -c "${INITRAMFS}" "${INITRAMFS}.cpio"
+gunzip -c "${INITRAMFS}" > "${INITRAMFS}.cpio"
 
 cd /usr/src/linux
 
