@@ -51,7 +51,7 @@
 
 # Set SYNC and GENTOO_MIRRORS variables in /etc/portage/make.conf first.
 set -x
-emerge --sync
+time emerge --sync --quiet
 eix-update
 
 # Enable ssh, not sure why the ebuild didn't set these directories properly
