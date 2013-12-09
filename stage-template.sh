@@ -6,9 +6,11 @@ DIRS="
     etc/portage/package.keywords
     etc/portage/package.use
     home
+    mnt
     proc
     root
     sys
+    tmp
     usr/portage
     var/lib/portage
 "
