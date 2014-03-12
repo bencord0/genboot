@@ -2,7 +2,7 @@
 ###########
 # Genboot #
 ###########
-#
+
 # A framework for building boot environments
 ############################################
 #
@@ -18,27 +18,33 @@
 # $     -nographic \
 # $     -append console=ttyS0
 
-# Which is ofcourse, useless without me supplying 
-# the vmlinuz and initramfs files.
-# Creation of the initramfs is sill a manual task
+# Which is, of course, useless without me also supplying the vmlinuz (kernel)
+# and initramfs files. I probably won't publish them until I can reliably produce
+# builds of the kernel and initramfs, or kernel with included initramfs that do not
+# have any (re-)distribution and/or copyleft concerns.
+
+# In the meantime, any Gentoo-like environment will do.
+
+# This repo includes some scripts to create the initramfs.
 # It does some things atypical to a standard distro initramfs.
 #   - Only a kernel and initramfs are supplied to qemu, there
-#     is no stateful disk image.
+#     is no stateful disk image or rootfs.
 #   - The root= kernel cmdline is set inside the initramfs,
 #     not supplied to qemu's "-append".
 #   - The VM uses a lot of RAM. All writes are directed
 #     towards an RAM backed AUFS rootfs.
-#   - QEMU User networking provides a crippeled network
+#   - QEMU User networking provides a crippled network
 #     environment, sufficient enough for TCP to download
 #     the portage tree and distfiles.
 #   - No other special networking needs to be made. Qemu can be run
 #     as a non-privilaged user.
 #   - While the kernel is fairly standard
 #     (sys-kernel/aufs-sources), however, network drivers and other
-#     config is taylored for my environment.
-#   - Kernel modules insude the initramfs are coupled to
-#     the kernel version. (In theory, the initramfs could be
-#     bundled into the kernel too)
+#     config is tailored for my environment.
+#   - Kernel modules inside the initramfs are coupled to
+#     the kernel version. (In theory, the kernel could be compiled without
+#     CONFIG_MODULES. Also the initramfs could be bundled into the
+#     kernel image for single file distribution.
 #   - The initramfs is at least as big as any generated
 #     tarball since the initramfs will effectively perform
 #     a stage3 install during the boot process. It is a neat
@@ -46,10 +52,17 @@
 #     initramfs, and the qemu/kernel/initramfs to (cleanly) build
 #     the stage tarball.
 #   - My custom dracut module is not documented (or described) here.
+#     See prepare_dracut.sh for details.
 
-# Once the VM has booted, root login is permitted (without password)
+# Once booted, root login is permitted (without a password) on the console.
+# This can have security consequences, but this scheme does not allow
+# remote logins, or any password based authentication to gain root access,
+# e.g. su.
+# See /etc/shadow for details.
 
-# Set SYNC and GENTOO_MIRRORS variables in /etc/portage/make.conf first.
+# Set SYNC and GENTOO_MIRRORS variables in /etc/portage/make.conf to
+# use a local (and preferably internal) mirror to reduce load on upstream Gentoo
+# infrastructure.
 set -x
 time emerge --sync --quiet
 eix-update
@@ -57,12 +70,15 @@ eix-update
 # Enable ssh, not sure why the ebuild didn't set these directories properly
 chown root /var/empty
 chmod 755 /var/empty
-systemctl start sshd
+systemctl start sshd || /etc/init.d/sshd start
 
-# Run /usr/bin/passwd to set a password and enable remote logins
+# Run /usr/bin/passwd to set a password to enable remote logins.
 # (optional) passwd
 
+# Otherwise, now is a good time to add a /root/.ssh/authorized_keys file.
+
 set -e
+
 # If, for some reason, binutils is not installed with $ROOT/usr/portage/profiles
 # programs like ar and ld can't be found.
 # make the symlinks by calling binutils-config when a real portage tree exists
@@ -72,6 +88,8 @@ ar -V || {
     source /etc/profile
 }
 
+# We'll need git to download these scripts.
+# To save on compilation time, skip some of the bigger dependencies.
 git --version || {
     mkdir -p /etc/portage/package.use
     grep 'dev-vcs/git' /etc/portage/package.use/dev-vcs \
@@ -86,6 +104,9 @@ then
 else
     git clone https://github.com/bencord0/genboot.git /root/genboot
 fi
+
+# Handbook installations and official Gentoo releases using catalyst are done
+# from inside the chroot. We are not, so make portage aware of this.
 (cd /; patch -p0 -l -N < /root/genboot/user.eclass.patch) || true
 
 cd genboot
