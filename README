@@ -92,11 +92,13 @@ ar -V || {
 # We'll need git to download these scripts.
 # To save on compilation time, skip some of the bigger dependencies.
 git --version || {
+    # You are doing this in a throwaway environment aren't you?
     mkdir -p /etc/portage/package.use
     grep 'dev-vcs/git' /etc/portage/package.use/dev-vcs \
         || tee -a /etc/portage/package.use/dev-vcs \
         <<< 'dev-vcs/git -pcre -perl -python -webdav'
-    emerge -uDNvj dev-vcs/git --usepkg --getbinpkg --update
+    emerge --deep --newuse --verbose --usepkg --getbinpkg --update --jobs \
+        dev-vcs/git
 }
 
 if [ -d /root/genboot ];
