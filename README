@@ -64,8 +64,9 @@
 # use a local (and preferably internal) mirror to reduce load on upstream Gentoo
 # infrastructure.
 set -x
-time emerge --sync --quiet
-eix-update
+
+time emerge --sync --quiet && \
+eix-update # Only update if there's anything to update
 
 # Enable ssh, not sure why the ebuild didn't set these directories properly
 chown root /var/empty
