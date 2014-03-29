@@ -108,6 +108,11 @@ else
     git clone https://github.com/bencord0/genboot.git /root/genboot
 fi
 
+# Make sure that the host system is somewhat sane.
+# You did read the bit about using a disposible environment yes?
+python-updater
+perl-cleaner --all
+
 # Handbook installations and official Gentoo releases using catalyst are done
 # from inside the chroot. We are not, so make portage aware of this.
 (cd /; patch -p0 -l -N < /root/genboot/user.eclass.patch) || true
