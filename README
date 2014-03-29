@@ -12,7 +12,6 @@
 # $     -m 10G \
 # $     -smp 6 \
 # $     -kernel vmlinuz \
-# $     -initrd initramfs \
 # $     -net nic,model=virtio \
 # $     -net user \
 # $     -nographic \
@@ -21,62 +20,59 @@
 # Them, when inside the VM, login as root and run this README file.
 # curl https://github.com/bencord0/genboot/raw/master/README | bash
 
-# Which is, of course, useless without me also supplying the vmlinuz (kernel)
-# and initramfs files. I probably won't publish them until I can reliably
-# produce builds of the kernel and initramfs (with bundled filesystem), or
-# kernel with included initramfs and rootfs that do not have any
-# (re-)distribution and/or copyleft concerns.
-# This is the source, but I don't publish binaries.
+# Which is, of course, useless without me also supplying the vmlinuz (kernel).
+# I probably won't publish them until I can reliably  produce builds of the
+# kernel and initramfs (with bundled filesystem), or kernel with included
+# initramfs and rootfs that do not have any (re-)distribution and/or copyleft
+# concerns. This is the source, I don't (yet?) publish binaries.
 
 # In the meantime, any disposable Gentoo-like environment will do.
 # But not the minimal install cd, since that doesn't have 'emerge'.
 
-# If you do have a copy of my kernel/initramfs then you should be aware of
+# If you do have a copy of the all-in-one kernel then you should be aware of
 # the changes I have made.
 # It does some things atypical to a standard distro initramfs.
-#   - Only a kernel and initramfs are supplied to qemu, there
-#     is no stateful disk image or rootfs.
-#   - The root= kernel cmdline is set inside the initramfs,
-#     not supplied to qemu's "-append".
-#   - The VM uses a lot of RAM. All writes are directed
-#     towards an RAM backed AUFS rootfs.
-#   - QEMU User networking provides a crippled network
-#     environment, sufficient enough for TCP to download
-#     the portage tree and distfiles.
+#   - Only a kernel is supplied to qemu, there is no stateful disk needed.
+#   - The root= kernel cmdline is set inside the initramfs, and does not need
+#     to be supplied to qemu's "-append".
+#   - The VM uses a lot of RAM. All writes are directed towards an RAM backed
+#     AUFS rootfs.
+#   - QEMU User networking provides a crippled network environment, sufficient
+#     enough for TCP to download the portage tree and distfiles.
 #   - Pointing to a local portage/distfiles mirror is recommended.
 #     This involves setting SYNC, GENTOO_MIRRORS and optionally,
 #     PORTAGE_BINHOST in /etc/portage/make.conf
-#   - No other special networking needs to be made. Qemu can be run
-#     as a non-privilaged user.
+#   - No other special networking needs to be made. Qemu can be run as a
+#     non-privilaged user.
 #   - However, bridged networking is more performant that user networking,
-#     but may require administratice access on the host.
-#   - While the kernel is fairly standard
-#     (sys-kernel/aufs-sources), however, network drivers and other
-#     config is tailored for my environment, i.e. qemu/kvm virtio.
-#   - Kernel modules inside the initramfs are coupled to
-#     the kernel version. (In theory, the kernel could be compiled without
-#     CONFIG_MODULES. Alternatively the initramfs could be bundled into
-#     the kernel image for single file distribution (enforcing the strong
-#     coupling).
-#   - The initramfs is at least as big as any generated
-#     tarball since the initramfs will effectively perform
-#     a stage3 install during the boot process. It is a neat
-#     chicken/egg problem that requires the stage3 to build the
-#     initramfs, and the qemu/kernel/initramfs to (cleanly) build
-#     the stage tarball.
+#     and may require administratice access on the host.
+#   - While the kernel is fairly standard (sys-kernel/aufs-sources), however
+#     network drivers and other config is tailored for my environment,
+#     i.e. qemu/kvm virtio.
+#     PXE booting may work, but your hardware might be different.
+#   - Kernel modules inside the initramfs are coupled to the kernel version.
+#     In theory, the kernel could be compiled without CONFIG_MODULES.
+#   - The single, inclusive kernel image couples the version of kernel modules
+#     in the initramfs to the kernel, so the above point is less of an issue.
+#   - The final image is at least as big as any generated stage tarball since
+#     the initramfs will effectively perform a stage3 install during the boot
+#     process.
+#     This presents a chicken/egg problem to visitors of this git repo that
+#     requires the stage3 to build the boot environment, and the boot
+#     environment to (cleanly) build the stage tarball.
 #   - My custom dracut module is not documented or described here.
 #     See prepare_dracut.sh for details.
-
-# Once booted, root login is permitted (without a password) on the console.
-# This can have security consequences, but this scheme does not allow
-# remote logins, or any password based authentication to gain root access.
-# Set a password or download an ssh key on first login.
-# e.g. https://github.com/{username}.keys -> ~/.ssh/authorized_keys
-# Also see 'grep root /etc/shadow' for details.
+#   - Once booted, root login is permitted (without password) on the console.
+#     This can have security consequences, but this scheme does not allow
+#     remote logins, or any password based authentication (e.g. pam/sudo/su)
+#     to gain root access.
+#     See 'grep root /etc/shadow' for details.
+#   - Set a password or download an ssh key on first login.
+#     e.g. https://github.com/{username}.keys -> ~/.ssh/authorized_keys
 
 # Set SYNC and GENTOO_MIRRORS variables in /etc/portage/make.conf to
-# use a local (and preferably internal) mirror to reduce load on upstream Gentoo
-# infrastructure.
+# use a local (and preferably internal) mirror to reduce load on upstream
+# Gentoo infrastructure.
 set -x
 
 time emerge --sync --quiet && \
@@ -94,7 +90,7 @@ systemctl start sshd || /etc/init.d/sshd start
 
 set -e
 
-# If, for some reason, binutils is not installed with $ROOT/usr/portage/profiles
+# If, for some reason, binutils is not installed in $ROOT/usr/portage/profiles
 # programs like ar and ld can't be found.
 # make the symlinks by calling binutils-config when a real portage tree exists
 ar -V || {
@@ -143,13 +139,20 @@ bash pack_portdir.sh
 
 # Build artifacts are stored in /root
 cd /root
+
+# These files can be used to install Gentoo from stage3
 ls -l stage3-systemd.tar.xz # Stage 3 tarball of the rootfs
-ls -l systemd.squashfs      # Stage 3 squashfs of the rootsf
-ls -l initramfs             # Ramdisk with embeddeed squashfs rootfs
-ls -l initramfs.cpio        # Uncompressed initramfs with embedded rootfs,
-                            # for bundling into the kernel image
 ls -l initramfs.nosquash    # Normal initramfs, no embedded rootfs
-ls -l vmlinuz               # Kernel image, with embedded initramfs and rootfs
-ls -l linux-image.tar.gz    # vmlinuz + modules tarball
+ls -l linux-image.tar.xz    # vmlinuz + modules tarball
 ls -l portage.tar.xz        # portage snapshot, with distfiles and binpkgs
+
+# These are extra files created during the build
+ls -l systemd.squashfs      # Stage 3 squashfs of the rootfs
+ls -l initramfs             # Dracut ramdisk with embeddeed squashfs rootfs
+ls -l initramfs.cpio        # Uncompressed initramfs with embedded rootfs,
+                            # needed during the final kernel build
+
+# This is the ultimate build artifact, a self contained kernel image
+# with the bundled initramfs and squashfs/aufs based environment.
+ls -l vmlinuz               # Kernel image, with embedded initramfs and rootfs
 
