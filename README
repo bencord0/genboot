@@ -140,3 +140,16 @@ bash prepare_dracut.sh
 bash build_initramfs.sh
 bash build_vmlinuz.sh
 bash pack_portdir.sh
+
+# Build artifacts are stored in /root
+cd /root
+ls -l stage3-systemd.tar.xz # Stage 3 tarball of the rootfs
+ls -l systemd.squashfs      # Stage 3 squashfs of the rootsf
+ls -l initramfs             # Ramdisk with embeddeed squashfs rootfs
+ls -l initramfs.cpio        # Uncompressed initramfs with embedded rootfs,
+                            # for bundling into the kernel image
+ls -l initramfs.nosquash    # Normal initramfs, no embedded rootfs
+ls -l vmlinuz               # Kernel image, with embedded initramfs and rootfs
+ls -l linux-image.tar.gz    # vmlinuz + modules tarball
+ls -l portage.tar.xz        # portage snapshot, with distfiles and binpkgs
+
