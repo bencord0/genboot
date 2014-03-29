@@ -6,7 +6,7 @@ DIRS="
     etc/portage/package.keywords
     etc/portage/package.use
     home
-    mnt
+    mnt/gentoo
     proc
     root
     sys
@@ -32,7 +32,7 @@ ln -sf /usr/portage/profiles/default/linux/amd64/13.0 stage-template/etc/make.pr
 cat << EOF > stage-template/etc/portage/make.conf
 ACCEPT_KEYWORDS="~amd64"
 FEATURES="buildpkg parallel-fetch parallel-install"
-USE="-bindist -caps -consolekit systemd"
+USE="bindist -caps -consolekit systemd"
 EOF
 
 cat << EOF > stage-template/var/lib/portage/world
@@ -49,6 +49,8 @@ sys-boot/os-prober
 sys-fs/btrfs-progs
 sys-fs/lvm2
 sys-fs/squashfs-tools
+sys-fs/xfsdump
+sys-fs/xfsprogs
 sys-kernel/dracut
 EOF
 
