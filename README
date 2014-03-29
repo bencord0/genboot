@@ -117,7 +117,7 @@ perl-cleaner --all
 # from inside the chroot. We are not, so make portage aware of this.
 (cd /; patch -p0 -l -N < /root/genboot/user.eclass.patch) || true
 
-cd genboot
+cd /root/genboot
 bash stage-template.sh
 bash build_stage3.sh
 bash build_squashfs.sh
