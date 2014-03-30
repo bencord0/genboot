@@ -38,6 +38,8 @@ emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps sys-auth/pambase
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
+    --with-bdeps=y --complete-graph=y system
+emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --with-bdeps=y --complete-graph=y world
 
 # Only install the runtime dependencies
@@ -46,6 +48,8 @@ emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps $DBUS_DEPS
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps sys-auth/pambase
+emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
+    --with-bdeps=y --complete-graph=y system
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     world
 
