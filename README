@@ -112,6 +112,12 @@ git --version || {
     grep 'dev-vcs/git' /etc/portage/package.use/dev-vcs \
         || tee -a /etc/portage/package.use/dev-vcs \
         <<< 'dev-vcs/git -pcre -perl -python -webdav'
+
+    # Do we need automake?
+    eix -I sys-devel/automake$ || \
+    emerge --deep --newuse --verbose --usepkg --getbinpkg --update --jobs \
+        sys-devel/automake
+
     emerge --deep --newuse --verbose --usepkg --getbinpkg --update --jobs \
         dev-vcs/git
 }
