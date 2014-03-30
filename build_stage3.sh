@@ -4,8 +4,9 @@ TOPDIR=$(dirname $0)
 cd "$TOPDIR"
 
 EMERGE_FLAGS="--buildpkg --getbinpkg --update --jobs --deep --newuse"
-# sys-libs/pam needs yacc to compile, but is not needed in the final rootfs
+# Host needs to have a expanded toolchain
 HDEPEND=" \
+    sys-devel/automake \
     virtual/yacc \
 "
 DBUS_DEPS="sys-libs/glibc \
@@ -27,8 +28,7 @@ tar xavpf stage-template.tar.gz -C chroot
 # Stop when things go wrong
 set -ex
 
-# note: dbus's pkg_setup phase needs some files to exist in the chroot
-# note: pam, an install dependency of dbus, has a compile dependency on yacc
+# Build some host dependencies
 emerge $EMERGE_FLAGS --usepkg \
     $HDEPEND
 # Building binary packages also installs compile-time dependencies
