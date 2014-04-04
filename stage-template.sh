@@ -40,6 +40,7 @@ app-editors/vim
 app-portage/eix
 net-dns/bind-tools
 net-misc/dhcpcd
+net-nfs/nfs-utils
 sys-apps/dbus
 sys-apps/gentoo-systemd-integration
 sys-apps/iproute2
