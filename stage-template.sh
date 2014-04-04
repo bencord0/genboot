@@ -38,6 +38,8 @@ EOF
 cat << EOF > stage-template/var/lib/portage/world
 app-editors/vim
 app-portage/eix
+app-portage/gentoolkit
+app-portage/portage-utils
 net-dns/bind-tools
 net-misc/dhcpcd
 net-nfs/nfs-utils
