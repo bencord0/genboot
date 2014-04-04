@@ -6,9 +6,9 @@
 # A framework for building boot environments
 ############################################
 #
-# Example usage in clean qemu environment
+# Example usage in a qemu/kvm environment
 #
-# $ qemu-kvm \
+# $ qemu-system-x86_64 \
 # $     -m 10G \
 # $     -smp 6 \
 # $     -kernel vmlinuz \
@@ -16,14 +16,37 @@
 # $     -net user \
 # $     -nographic \
 # $     -append console=ttyS0
+#
+# Example usage in a Xen environment
+#
+# $ cat << EOF > genboot.cfg
+# > kernel="/path/to/vmlinuz"
+# > vcpus=4
+# > memory=10240
+# > name="genboot"
+# > device_model_override="/usr/bin/qemu-system-x86_64"
+# > vif=['script=/path/to/vif-br0']
+# > EOF
+#
+# $ cat << EOF > vif-br0
+# > #!/bin/bash
+# > test "$1" = "offline" && exit
+# > ip link set dev "$vif" master br0
+# > ip link set dev "$vif" up
+# > EOF
+# $ chmod +x vif-br0
+#
+# This involves lots of RAM, and assumes that you already
+# have a bridged network device, br0, configured on the host.
+#
 
-# Them, when inside the VM, login as root and run this README file.
-# curl https://github.com/bencord0/genboot/raw/master/README | bash
+# When inside the VM, login as root and run this README file.
+# $ curl https://raw.github.com/bencord0/genboot/master/README | bash
 
-# Which is, of course, useless without me also supplying the vmlinuz (kernel).
+# Which is, of course, useless without me also supplying the kernel image.
 # I probably won't publish them until I can reliably  produce builds of the
 # kernel and initramfs (with bundled filesystem), or kernel with included
-# initramfs and rootfs that do not have any (re-)distribution and/or copyleft
+# initramfs and rootfs that do not have any (re-)distribution and copyleft
 # concerns. This is the source, I don't (yet?) publish binaries.
 
 # In the meantime, any disposable Gentoo-like environment will do.
@@ -33,36 +56,35 @@
 # the changes I have made.
 # It does some things atypical to a standard distro initramfs.
 #   - Only a kernel is supplied to qemu, there is no stateful disk needed.
-#   - The root= kernel cmdline is set inside the initramfs, and does not need
+#   - The root= kernel cmdline is set inside the initramfs and does not need
 #     to be supplied to qemu's "-append".
-#   - The VM uses a lot of RAM. All writes are directed towards an RAM backed
-#     AUFS rootfs.
-#   - QEMU User networking provides a crippled network environment, sufficient
+#   - The VM uses a lot of RAM. All writes are on a RAM backed AUFS rootfs.
+#   - QEMU User networking provides a crippled network environment,
 #     enough for TCP to download the portage tree and distfiles.
+#   - Alternatively use bridged networking, or Xen.
 #   - Pointing to a local portage/distfiles mirror is recommended.
 #     This involves setting SYNC, GENTOO_MIRRORS and optionally,
 #     PORTAGE_BINHOST in /etc/portage/make.conf
 #   - No other special networking needs to be made. Qemu can be run as a
 #     non-privilaged user.
 #   - However, bridged networking is more performant that user networking,
-#     and may require administratice access on the host.
+#     and may require administratice access on the host. Not covered here.
 #   - While the kernel is fairly standard (sys-kernel/aufs-sources), however
 #     network drivers and other config is tailored for my environment,
 #     i.e. qemu/kvm virtio.
 #     PXE booting may work, but your hardware might be different.
 #   - Kernel modules inside the initramfs are coupled to the kernel version.
 #     In theory, the kernel could be compiled without CONFIG_MODULES.
-#   - The single, inclusive kernel image couples the version of kernel modules
-#     in the initramfs to the kernel, so the above point is less of an issue.
-#   - The final image is at least as big as any generated stage tarball since
-#     the initramfs will effectively perform a stage3 install during the boot
-#     process.
+#   - The single kernel image couples the version of kernel modules
+#     in the initramfs to the kernel, so the above point is not an issue.
+#   - The final image is at least as big as any generated stage tarball and
+#     the initramfs will perform a stage3 install during the boot process.
 #     This presents a chicken/egg problem to visitors of this git repo that
 #     requires the stage3 to build the boot environment, and the boot
 #     environment to (cleanly) build the stage tarball.
 #   - My custom dracut module is not documented or described here.
 #     See prepare_dracut.sh for details.
-#   - Once booted, root login is permitted (without password) on the console.
+#   - Once booted, root login is permitted (no password) on the console.
 #     This can have security consequences, but this scheme does not allow
 #     remote logins, or any password based authentication (e.g. pam/sudo/su)
 #     to gain root access.
@@ -90,9 +112,9 @@ systemctl start sshd || /etc/init.d/sshd start
 
 set -e
 
-# If, for some reason, binutils is not installed in $ROOT/usr/portage/profiles
+# If binutils is not installed in $ROOT/usr/portage/profiles
 # programs like ar and ld can't be found.
-# make the symlinks by calling binutils-config when a real portage tree exists
+# make the symlinks with binutils-config when a portage tree is available.
 ar -V || {
     source /etc/env.d/binutils/$(gcc -dumpmachine)-*
     binutils-config "$TARGET-$VER" && env-update
@@ -129,7 +151,7 @@ else
     git clone https://github.com/bencord0/genboot.git /root/genboot
 fi
 
-# Handbook installations and official Gentoo releases using catalyst are done
+# Handbook installations and official Gentoo releases use catalyst
 # from inside the chroot. We are not, so make portage aware of this.
 (cd /; patch -p0 -l -N < /root/genboot/user.eclass.patch) || true
 
@@ -160,5 +182,5 @@ ls -l initramfs.cpio        # Uncompressed initramfs with embedded rootfs,
 
 # This is the ultimate build artifact, a self contained kernel image
 # with the bundled initramfs and squashfs/aufs based environment.
-ls -l vmlinuz               # Kernel image, with embedded initramfs and rootfs
+ls -l vmlinuz               # Single kernel image, with initramfs and rootfs
 
