@@ -19,6 +19,10 @@ for dir in $DIRS; do
     mkdir -p stage-template/$dir
 done
 
+cat << EOF > stage-template/etc/portage/package.keywords/sys-boot
+sys-boot/os-prober
+EOF
+
 cat << EOF > stage-template/etc/portage/package.keywords/sys-kernel
 sys-kernel/dracut
 EOF
