@@ -102,7 +102,7 @@ ar -V || {
 # Make sure that the host system is somewhat sane.
 # You did read the bit about using a disposible environment yes?
 python-updater
-perl-cleaner --all
+perl-cleaner --reallyall
 
 # We'll need git to download these scripts.
 # To save on compilation time, skip some of the bigger dependencies.
