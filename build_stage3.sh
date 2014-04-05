@@ -71,13 +71,13 @@ mkdir -p chroot/etc/systemd/system/getty@tty1.service.d
 cat << EOF > chroot/etc/systemd/system/getty@tty1.service.d/autologin.conf
 [Service]
 ExecStart=
-ExecStart=-/usr/bin/agetty --autologin root --noclear %I 38400 linux
+ExecStart=-/sbin/agetty --autologin root --noclear %I 38400 linux
 EOF
 mkdir -p chroot/etc/systemd/system/getty@hvc0.service.d
 cat << EOF > chroot/etc/systemd/system/getty@hvc0.service.d/autologin.conf
 [Service]
 ExecStart=
-ExecStart=-/usr/bin/agetty --autologin root --noclear %I 38400 linux
+ExecStart=-/sbin/agetty --autologin root --noclear %I 38400 linux
 EOF
 mkdir -p chroot/etc/systemd/system/serial-getty@ttyS0.service.d
 cat << EOF > chroot/etc/systemd/system/serial-getty@ttyS0.service.d/autologin.conf
