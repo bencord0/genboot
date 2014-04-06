@@ -1,0 +1,75 @@
+#!/bin/bash
+#
+# Copyright 2014 Ben Cordero
+#
+# This file is part of lxc-create-gentoo.
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##################################
+## /etc/local.d/cloud-init.start #
+##################################
+
+function _network_config {
+    wget -O /etc/local.d/user-data \
+        http://169.254.169.254/latest/user-data
+    wget -O /etc/local.d/openssh-key \
+        http://169.254.169.254/latest/meta-data/public-keys/0/openssh-key
+    wget -O /etc/local.d/hostname \
+        http://169.254.169.254/latest/meta-data/hostname
+
+    _file_config
+}
+
+function _file_config {
+    test -f "/etc/local.d/hostname" && \
+    test -n "$(cat /etc/local.d/hostname)" && {
+        HOSTNAME=$(cut -d '.' -f1 /etc/local.d/hostname)
+        echo "HOSTNAME=\"$HOSTNAME\"" > /etc/conf.d/hostname
+        echo "$HOSTNAME" > /etc/hostname
+        /etc/init.d/hostname restart || hostnamectl set-hostname "$HOSTNAME"
+    }
+
+    test -f "/etc/local.d/openssh-key" && {
+        for KEYUSER in admin ec2-user; do
+        test -d "/home/${KEYUSER}" && {
+            mkdir -p /home/"${KEYUSER}"/.ssh
+            cp /etc/local.d/openssh-key /home/"${KEYUSER}"/.ssh/authorized_keys
+            chmod u=rX,go= -R /home/"${KEYUSER}"/.ssh
+            chown "${KEYUSER}":"${KEYUSER}" -R /home/"${KEYUSER}"/.ssh
+        }
+        done
+
+        mkdir -p /root/.ssh
+        cp /etc/local.d/openssh-key /root/.ssh/authorized_keys
+        chmod u=rX,go= -R /root/.ssh
+    }
+
+    test -f "/etc/local.d/user-data" && \
+    test _"$(head -c2 /etc/local.d/user-data)" == '_#!' && {
+        chmod +x /etc/local.d/user-data
+        exec /etc/local.d/user-data
+    } || true
+
+    rm -f /etc/local.d/{user-data,openssh-key,hostname}
+}
+
+##############################################################
+ping -c 1 169.254.169.254 2>&1 >/dev/null && {
+        echo "Attempting autoconfiguration by local network"
+        _network_config
+} || {
+        echo "Attempting autoconfiguration by local file"
+        _file_config
+}

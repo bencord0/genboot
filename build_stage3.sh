@@ -88,7 +88,7 @@ Type=simple
 EOF
 
 # Cloud-init
-cp cloud-init-gist chroot/etc/local.d/cloud-init.start
+cp cloud-init.start chroot/etc/local.d/cloud-init.start
 chmod +x chroot/etc/local.d/cloud-init.start
 
 tar cJf /root/stage3-systemd.tar.xz -C chroot .
