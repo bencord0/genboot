@@ -10,4 +10,4 @@ cd /usr/src/linux
 
 make $MAKEOPTS targz-pkg
 
-cp "$(make image_name)" /root/vmlinuz
+cp arch/x86/boot/bzImage /root/vmlinuz
