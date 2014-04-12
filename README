@@ -127,10 +127,12 @@ git --version || {
 
     # Do we need automake?
     eix -I sys-devel/automake$ || \
-    emerge --deep --newuse --verbose --usepkg --getbinpkg --update --jobs \
+    emerge --deep --newuse --verbose --update --jobs \
+        --usepkg --buildpkg --getbinpkg \
         sys-devel/automake
 
-    emerge --deep --newuse --verbose --usepkg --getbinpkg --update --jobs \
+    emerge --deep --newuse --verbose --update --jobs \
+        --usepkg --buildpkg --getbinpkg \
         dev-vcs/git
 }
 
