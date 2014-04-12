@@ -51,7 +51,7 @@ emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --with-bdeps=y --complete-graph=y system
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
-    world
+    --with-bdeps=y --complete-graph=y world
 
 # Blank out the default root password
 sed -i -e '/root/ s/*//' chroot/etc/shadow
