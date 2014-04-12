@@ -44,6 +44,7 @@ emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
 
 # Only install the runtime dependencies
 export ROOT="${TOPDIR}"/chroot
+quickpkg $DBUS_DEPS
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps $DBUS_DEPS
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
