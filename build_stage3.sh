@@ -38,7 +38,7 @@ emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps sys-auth/pambase
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
-    --root-deps --with-bdeps=y --complete-graph=y system
+    --with-bdeps=y --complete-graph=y system
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --root-deps --with-bdeps=y --complete-graph=y world
 
