@@ -9,12 +9,17 @@ HDEPEND=" \
     sys-devel/automake \
     virtual/yacc \
 "
-DBUS_DEPS="sys-libs/glibc \
+DBUS_DEPS1=" \
+    sys-libs/glibc \
     sys-libs/cracklib \
     sys-libs/pam \
     sys-apps/shadow \
     sys-apps/baselayout \
 "
+DBUS_DEPS2=" \
+    sys-auth/pambase \
+"
+
 rm -rf "chroot"
 mkdir "chroot-prepare" "chroot"
 tar xavpf stage-template.tar.gz -C chroot-prepare && {
@@ -34,9 +39,16 @@ emerge $EMERGE_FLAGS --usepkg \
 # Building binary packages also installs compile-time dependencies
 export ROOT="${TOPDIR}"/chroot-prepare
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
-    --oneshot --nodeps $DBUS_DEPS
+    --oneshot --nodeps $DBUS_DEPS1
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
-    --oneshot --nodeps sys-auth/pambase
+    --oneshot --nodeps $DBUS_DEPS2
+# Check that we have binaries. Don't use --update
+for dep in $DBUS_DEPS1 $DBUS_DEPS2; do
+    eix --quiet --binary $dep || \
+    emerge --buildpkg --getbinpkg --jobs --deep --newuse \
+        --config-root=$ROOT --root=$ROOT --oneshot --nodeps \
+        $dep
+done
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --with-bdeps=y --complete-graph=y system
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
@@ -45,9 +57,9 @@ emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
 # Only install the runtime dependencies
 export ROOT="${TOPDIR}"/chroot
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
-    --oneshot --nodeps $DBUS_DEPS
+    --oneshot --nodeps $DBUS_DEPS1
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
-    --oneshot --nodeps sys-auth/pambase
+    --oneshot --nodeps $DBUS_DEPS2
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --with-bdeps=y --complete-graph=y system
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
