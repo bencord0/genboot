@@ -45,8 +45,8 @@ emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
 # Check that we have binaries. Don't use --update
 for dep in $DBUS_DEPS1 $DBUS_DEPS2; do
     eix --quiet --binary $dep || \
-    emerge --ignore-default-opts --buildpkg --getbinpkg --jobs --deep \
-        --newuse --config-root=$ROOT --root=$ROOT --oneshot --nodeps \
+    emerge --ignore-default-opts --buildpkg --getbinpkg --jobs \
+        --config-root=$ROOT --root=$ROOT --oneshot --nodeps \
         $dep
 done
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
