@@ -43,11 +43,8 @@
 # When inside the VM, login as root and run this README file.
 # $ curl https://raw.github.com/bencord0/genboot/master/README | bash
 
-# Which is, of course, useless without me also supplying the kernel image.
-# I probably won't publish them until I can reliably  produce builds of the
-# kernel and initramfs (with bundled filesystem), or kernel with included
-# initramfs and rootfs that do not have any (re-)distribution and copyleft
-# concerns. This is the source, I don't (yet?) publish binaries.
+# You can use the supplied the kernel image available from
+# the github releases page.
 
 # In the meantime, any disposable Gentoo-like environment will do.
 # But not the minimal install cd, since that doesn't have 'emerge'.
