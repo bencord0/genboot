@@ -58,6 +58,7 @@ function _file_config {
         echo "HOSTNAME=\"$HOSTNAME\"" > /etc/conf.d/hostname
         echo "$HOSTNAME" > /etc/hostname
         /etc/init.d/hostname restart || hostnamectl set-hostname "$HOSTNAME"
+        /etc/init.d/dhcpcd restart || systemctl restart dhcpcd
     }
 
     test -f "/etc/local.d/openssh-key" && {
