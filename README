@@ -133,11 +133,13 @@ git --version || {
         dev-vcs/git
 }
 
+git_branch="${1:-master}"
+
 if [ -d /root/genboot ];
 then
-    (cd /root/genboot; git pull)
+    (cd /root/genboot; git fetch; git checkout "$git_branch")
 else
-    git clone https://github.com/bencord0/genboot.git /root/genboot
+    git clone https://github.com/bencord0/genboot.git /root/genboot "$git_branch"
 fi
 
 # Handbook installations and official Gentoo releases use catalyst
