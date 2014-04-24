@@ -25,10 +25,10 @@ CMDLINE=$(cat /proc/cmdline)
 for x in ${CMDLINE}
 do
     case "${x}" in
-        cloud_init=*)
+        cloudinit=*)
             CLOUD_INIT_HOST=${x#*=}
             ;;
-        cloud_init_retries=*)
+        cloudinit_retries=*)
             CLOUD_INIT_RETRIES=${x#*=} 
 	    ;;
         *)
@@ -88,7 +88,8 @@ function _file_config {
 
 # Wait for networking
 net_is_ready () {
-    ip a|grep -v -e 127.0.0.1 -e ::1 -e fe80::|grep inet \
+    ip addr show|grep -v -e 127.0.0.1 -e ::1 -e fe80::| \
+        grep inet \
     && (ip r | grep default \
     )||(ip -6 r | grep default) \
     && (ping -c 1 "${CLOUD_INIT_HOST_IP}" \
