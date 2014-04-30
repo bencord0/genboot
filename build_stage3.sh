@@ -103,4 +103,7 @@ EOF
 cp cloud-init.start chroot/etc/local.d/cloud-init.start
 chmod +x chroot/etc/local.d/cloud-init.start
 
+# Uniqueness
+echo > chroot/etc/machine-id
+
 tar cJf /root/stage3-systemd.tar.xz -C chroot .
