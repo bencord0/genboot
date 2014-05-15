@@ -139,7 +139,7 @@ if [ -d /root/genboot ];
 then
     (cd /root/genboot; git fetch; git checkout "$git_branch")
 else
-    git clone https://github.com/bencord0/genboot.git /root/genboot "$git_branch"
+    git clone https://github.com/bencord0/genboot.git /root/genboot --branch "$git_branch"
 fi
 
 # Handbook installations and official Gentoo releases use catalyst
