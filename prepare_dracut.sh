@@ -26,7 +26,7 @@ EOF
 chmod +x 80console/module-setup.sh
 
 echo 'console=tty0' > 80console/console-tty0.conf
-echo 'console=ttyS0' > 80console/console-ttyS0.conf
+echo 'console=ttyS0,115200' > 80console/console-ttyS0.conf
 
 ##################################
 # Rootfs = aufs(squashfs, tmpfs) #
