@@ -51,18 +51,21 @@ app-portage/portage-utils
 net-dns/bind-tools
 net-misc/dhcpcd
 net-fs/nfs-utils
+net-wireless/wpa_supplicant
 sys-apps/dbus
 sys-apps/gentoo-systemd-integration
 sys-apps/iproute2
 sys-apps/systemd
 sys-boot/grub
 sys-boot/os-prober
+sys-boot/syslinux
 sys-fs/btrfs-progs
 sys-fs/lvm2
 sys-fs/squashfs-tools
 sys-fs/xfsdump
 sys-fs/xfsprogs
 sys-kernel/dracut
+sys-kernel/linux-firmware
 EOF
 
 tar czf stage-template.tar.gz -C stage-template .
