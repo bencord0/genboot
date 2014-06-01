@@ -20,7 +20,7 @@ depends() {
 
 install() {
     inst "\$moddir/console-tty0.conf" /etc/cmdline.d/console-tty0.conf
-    inst "\$moddir/console-ttyS0.conf" /etc/cmdline.d/console=ttyS0.conf
+    inst "\$moddir/console-ttyS0.conf" /etc/cmdline.d/console-ttyS0.conf
 }
 EOF
 chmod +x 80console/module-setup.sh
