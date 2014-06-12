@@ -105,5 +105,6 @@ chmod +x chroot/etc/local.d/cloud-init.start
 
 # Uniqueness
 echo > chroot/etc/machine-id
+echo > chroot/etc/resolv.conf
 
 tar cJf /root/stage3-systemd.tar.xz -C chroot .
