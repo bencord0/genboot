@@ -44,6 +44,7 @@ app-portage/eix
 app-portage/gentoolkit
 app-portage/portage-utils
 net-dns/bind-tools
+net-misc/curl
 net-misc/dhcpcd
 net-fs/nfs-utils
 net-wireless/wpa_supplicant
