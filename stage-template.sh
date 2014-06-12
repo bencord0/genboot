@@ -62,6 +62,7 @@ sys-fs/xfsdump
 sys-fs/xfsprogs
 sys-kernel/dracut
 sys-kernel/linux-firmware
+sys-process/htop
 EOF
 
 tar czf stage-template.tar.gz -C stage-template .
