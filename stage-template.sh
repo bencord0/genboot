@@ -44,6 +44,7 @@ app-portage/eix
 app-portage/gentoolkit
 app-portage/portage-utils
 net-dns/bind-tools
+net-misc/bridge-utils
 net-misc/curl
 net-misc/dhcpcd
 net-fs/nfs-utils
