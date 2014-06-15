@@ -1,5 +1,7 @@
 #!/bin/bash
 set -x
 
-tar cJf /root/portage.tar.xz -C /usr portage
+eclean-dist
+eclean-pkg
 
+tar cJf /root/portage.tar.xz -C /usr portage
