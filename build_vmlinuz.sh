@@ -8,6 +8,7 @@ cp config /usr/src/linux/.config
 
 cd /usr/src/linux
 
-make $MAKEOPTS targz-pkg
+# Build a standalone kernel with bundled initramfs
+make $MAKEOPTS bzImage
 
 cp arch/x86/boot/bzImage /root/vmlinuz

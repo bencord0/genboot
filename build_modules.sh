@@ -12,6 +12,8 @@ make olddefconfig
 make kvmconfig
 make $MAKEOPTS modules
 make modules_install
+
+# Build a kernel release too (no initramfs)
 make tarxz-pkg
 
 cp linux-"$(make kernelrelease)"-x86.tar.xz /root/linux-image.tar.xz
