@@ -156,6 +156,9 @@ bash build_initramfs.sh
 bash build_vmlinuz.sh
 bash pack_portdir.sh
 
+# Turn off tracing
+set +x
+
 # Build artifacts are stored in /root
 cd /root
 
