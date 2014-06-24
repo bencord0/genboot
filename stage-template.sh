@@ -63,6 +63,7 @@ sys-boot/grub
 sys-boot/os-prober
 sys-boot/syslinux
 sys-fs/btrfs-progs
+sys-fs/dosfstools
 sys-fs/lvm2
 sys-fs/squashfs-tools
 sys-fs/xfsdump
