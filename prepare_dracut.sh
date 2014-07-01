@@ -77,6 +77,11 @@ mount_squashfs_as_aufs()
 
     info "Unioning rootfs"
     mount -t aufs -o br:/tmproot:/squashroot none /sysroot
+
+    info "Exposing squashroot image as /mnt/squashroot"
+    mkdir -p /sysroot/mnt
+    touch /sysroot/mnt/squashroot
+    mount --bind "\$root" /sysroot/mnt/squashroot
 }
 
 if [ -n USING_SQUASHEDAUFS ]
