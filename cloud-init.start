@@ -17,9 +17,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-##################################
-## /etc/local.d/cloud-init.start #
-##################################
+##############################
+## /usr/local/bin/cloud-init #
+##############################
 
 CMDLINE=$(cat /proc/cmdline)
 for x in ${CMDLINE}
@@ -41,47 +41,47 @@ CLOUD_INIT_HOST_IP=$(echo ${CLOUD_INIT_HOST}|cut -d'/' -f1|cut -d':' -f1)
 CLOUD_INIT_RETRIES=${CLOUD_INIT_RETRIES:=5}
 
 function _network_config {
-    wget -O /etc/local.d/user-data \
+    wget -O /tmp/user-data \
         http://${CLOUD_INIT_HOST}/latest/user-data
-    wget -O /etc/local.d/openssh-key \
+    wget -O /tmp/openssh-key \
         http://${CLOUD_INIT_HOST}/latest/meta-data/public-keys/0/openssh-key
-    wget -O /etc/local.d/hostname \
+    wget -O /tmp/hostname \
         http://${CLOUD_INIT_HOST}/latest/meta-data/hostname
 
     _file_config
 }
 
 function _file_config {
-    test -f "/etc/local.d/hostname" && \
-    test -n "$(cat /etc/local.d/hostname)" && {
-        HOSTNAME=$(cut -d '.' -f1 /etc/local.d/hostname)
+    test -f "/tmp/hostname" && \
+    test -n "$(cat /tmp/hostname)" && {
+        HOSTNAME=$(cut -d '.' -f1 /tmp/hostname)
         echo "HOSTNAME=\"$HOSTNAME\"" > /etc/conf.d/hostname
         echo "$HOSTNAME" > /etc/hostname
         /etc/init.d/hostname restart || hostnamectl set-hostname "$HOSTNAME"
         /etc/init.d/dhcpcd restart || systemctl restart dhcpcd
     }
 
-    test -f "/etc/local.d/openssh-key" && {
+    test -f "/tmp/openssh-key" && {
         for KEYUSER in admin ec2-user; do
         test -d "/home/${KEYUSER}" && {
             mkdir -p /home/"${KEYUSER}"/.ssh
-            cp /etc/local.d/openssh-key /home/"${KEYUSER}"/.ssh/authorized_keys
+            cp /tmp/openssh-key /home/"${KEYUSER}"/.ssh/authorized_keys
             chmod u=rX,go= -R /home/"${KEYUSER}"/.ssh
             chown "${KEYUSER}":"${KEYUSER}" -R /home/"${KEYUSER}"/.ssh
         }
         done
         mkdir -p /root/.ssh
-        cp /etc/local.d/openssh-key /root/.ssh/authorized_keys
+        cp /tmp/openssh-key /root/.ssh/authorized_keys
         chmod u=rX,go= -R /root/.ssh
     }
 
-    test -f "/etc/local.d/user-data" && \
-    test _"$(head -c2 /etc/local.d/user-data)" == '_#!' && {
-        chmod +x /etc/local.d/user-data
-        exec /etc/local.d/user-data
+    test -f "/tmp/user-data" && \
+    test _"$(head -c2 /tmp/user-data)" == '_#!' && {
+        chmod +x /tmp/user-data
+        exec /tmp/user-data
     } || true
 
-    rm -f /etc/local.d/{user-data,openssh-key,hostname}
+    rm -f /tmp/{user-data,openssh-key,hostname}
 }
 
 ##############################################################
