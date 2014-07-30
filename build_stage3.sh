@@ -6,6 +6,7 @@ cd "$TOPDIR"
 EMERGE_FLAGS="--buildpkg --getbinpkg --update --jobs --deep --newuse"
 # Host needs to have a expanded toolchain
 HDEPEND=" \
+    dev-lang/swig \
     dev-util/boost-build \
     sys-devel/automake \
     virtual/yacc \
