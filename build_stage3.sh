@@ -22,7 +22,7 @@ DBUS_DEPS2=" \
     sys-auth/pambase \
 "
 
-rm -rf "chroot"
+rm -rf "chroot-prepare" "chroot"
 mkdir "chroot-prepare" "chroot"
 tar xavpf stage-template.tar.gz -C chroot-prepare && {
     grep MAKEOPTS /etc/portage/make.conf >> chroot-prepare/etc/portage/make.conf
@@ -108,5 +108,8 @@ chmod +x chroot/etc/local.d/cloud-init.start
 # Uniqueness
 echo > chroot/etc/machine-id
 echo > chroot/etc/resolv.conf
+
+# SSH oddity
+chown root chroot/var/empty
 
 tar cJf /root/stage3-systemd.tar.xz -C chroot .
