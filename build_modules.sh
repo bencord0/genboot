@@ -3,6 +3,7 @@ set -x
 EMERGE_FLAGS="--buildpkg --getbinpkg --update --jobs --deep --newuse"
 MAKEOPTS="-j$(grep processor /proc/cpuinfo|wc -l)"
 
+echo sys-kernel/aufs-sources >> /etc/portage/package.keywords/sys-kernel
 emerge $EMERGE_FLAGS --usepkg  sys-kernel/aufs-sources
 cp config.nosquash /usr/src/linux/.config
 
