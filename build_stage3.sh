@@ -8,6 +8,7 @@ EMERGE_FLAGS="--buildpkg --getbinpkg --update --jobs --deep --newuse"
 HDEPEND=" \
     dev-lang/swig \
     dev-libs/boost \
+    dev-python/m2crypto \
     dev-util/boost-build \
     sys-devel/automake \
     virtual/yacc \
