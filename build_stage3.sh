@@ -114,4 +114,9 @@ echo > chroot/etc/resolv.conf
 # SSH oddity
 chown root chroot/var/empty
 
-tar cJf /root/stage3-systemd.tar.xz -C chroot .
+rm -f /root/systemd.squashfs || true
+rm -f /root/stage3-systemd.tar.xz || true
+
+mksquashfs chroot /root/systemd.squashfs &
+tar cJf /root/stage3-systemd.tar.xz -C chroot . &
+wait
