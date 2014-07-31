@@ -44,10 +44,13 @@ USE="-consolekit systemd"
 EOF
 
 cat << EOF > stage-template/var/lib/portage/world
+app-admin/ansible
+app-admin/puppet
 app-editors/vim
 app-portage/eix
 app-portage/gentoolkit
 app-portage/portage-utils
+dev-vcs/git
 net-dns/bind-tools
 net-misc/bridge-utils
 net-misc/curl
