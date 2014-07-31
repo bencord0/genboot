@@ -79,8 +79,15 @@ echo -n > chroot/etc/fstab
 ln -sf /proc/mounts chroot/etc/mtab
 
 # Start networking on boot
-ln -s 'chroot/usr/lib64/systemd/system/dhcpcd.service' \
-    'chroot/etc/systemd/system/multi-user.target.wants/dhcpcd.service'
+ln -s '/usr/lib64/systemd/system/systemd-networkd.service' \
+    'chroot/etc/systemd/system/multi-user.target.wants/systemd-networkd.service'
+cat << EOF > chroot/etc/systemd/network/dhcp.network
+[Match]
+Name=en*
+
+[Network]
+DHCP=both
+EOF
 
 # Autologin
 mkdir -p chroot/etc/systemd/system/getty@tty1.service.d
@@ -113,6 +120,8 @@ echo > chroot/etc/resolv.conf
 
 # SSH oddity
 chown root chroot/var/empty
+ln -s '/usr/lib64/systemd/system/sshd.service' \
+    'chroot/etc/systemd/system/multi-user.target.wants/sshd.service'
 
 rm -f /root/systemd.squashfs || true
 rm -f /root/stage3-systemd.tar.xz || true
