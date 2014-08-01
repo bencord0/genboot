@@ -149,7 +149,6 @@ fi
 cd /root/genboot
 bash stage-template.sh
 bash build_stage3.sh
-bash build_squashfs.sh
 bash build_modules.sh
 bash prepare_dracut.sh
 bash build_initramfs.sh
