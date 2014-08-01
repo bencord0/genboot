@@ -45,7 +45,6 @@ EOF
 
 cat << EOF > stage-template/var/lib/portage/world
 app-admin/ansible
-app-admin/puppet
 app-editors/vim
 app-portage/eix
 app-portage/gentoolkit
