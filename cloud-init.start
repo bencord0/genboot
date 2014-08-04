@@ -58,11 +58,11 @@ function _file_config {
         echo "HOSTNAME=\"$HOSTNAME\"" > /etc/conf.d/hostname
         echo "$HOSTNAME" > /etc/hostname
         /etc/init.d/hostname restart || hostnamectl set-hostname "$HOSTNAME"
-        /etc/init.d/dhcpcd restart || systemctl restart dhcpcd
+        /etc/init.d/dhcpcd restart || systemctl is-active dhcpcd && systemctl restart dhcpcd
     }
 
     test -f "/tmp/openssh-key" && {
-        for KEYUSER in admin ec2-user; do
+        for KEYUSER in admin ec2-user gentoo; do
         test -d "/home/${KEYUSER}" && {
             mkdir -p /home/"${KEYUSER}"/.ssh
             cp /tmp/openssh-key /home/"${KEYUSER}"/.ssh/authorized_keys
