@@ -53,7 +53,6 @@ dev-vcs/git
 net-dns/bind-tools
 net-misc/bridge-utils
 net-misc/curl
-net-misc/dhcpcd
 net-fs/nfs-utils
 net-wireless/wpa_supplicant
 sys-apps/dbus
