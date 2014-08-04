@@ -38,7 +38,7 @@ tar xavpf stage-template.tar.gz -C chroot
 set -ex
 
 # Build some host dependencies
-emerge $EMERGE_FLAGS --usepkg \
+emerge $EMERGE_FLAGS --usepkg --oneshot \
     $HDEPEND
 # Building binary packages also installs compile-time dependencies
 export ROOT="${TOPDIR}"/chroot-prepare
