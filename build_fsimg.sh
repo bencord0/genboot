@@ -17,3 +17,10 @@ function clean_up () {
 trap 'clean_up' EXIT
 
 unsquashfs -d "$M" -f /root/systemd.squashfs
+
+clean_up
+trap - EXIT
+
+e2fsck -f "$I"
+resize2fs -M "$I"
+xz "$I"
