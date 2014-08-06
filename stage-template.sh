@@ -30,6 +30,10 @@ EOF
 #cat << EOF > stage-template/etc/portage/package.mask
 #EOF
 
+cat << EOF > stage-template/etc/portage/package.use/dev-lang
+dev-lang/python sqlite
+EOF
+
 cat << EOF > stage-template/etc/portage/package.use/sys-boot
 sys-boot/grub device-mapper
 EOF
