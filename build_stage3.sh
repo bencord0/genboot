@@ -78,9 +78,11 @@ echo -n > chroot/etc/fstab
 # List mounts correctly
 ln -sf /proc/mounts chroot/etc/mtab
 
-# Start networking on boot
-ln -s '/usr/lib64/systemd/system/systemd-networkd.service' \
-    'chroot/etc/systemd/system/multi-user.target.wants/systemd-networkd.service'
+# Start systemd services
+for svc in networkd resolved timesyncd; do
+ln -s "/usr/lib64/systemd/system/systemd-${svc}.service" \
+    "chroot/etc/systemd/system/multi-user.target.wants/systemd-${svc}.service"
+done
 cat << EOF > chroot/etc/systemd/network/dhcp.network
 [Match]
 Name=en*
@@ -88,6 +90,7 @@ Name=en*
 [Network]
 DHCP=both
 EOF
+ln -sf /run/systemd/resolve/resolv.conf chroot/etc/resolv.conf
 
 # Autologin
 mkdir -p chroot/etc/systemd/system/getty@tty1.service.d
@@ -116,7 +119,6 @@ chmod +x chroot/etc/local.d/cloud-init.start
 
 # Uniqueness
 echo > chroot/etc/machine-id
-echo > chroot/etc/resolv.conf
 
 # SSH oddity
 chown root chroot/var/empty
