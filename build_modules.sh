@@ -16,5 +16,6 @@ make modules_install
 
 # Build a kernel release too (no initramfs)
 make $MAKEOPTS tarxz-pkg
+cp arch/x86/boot/bzImage /root/vmlinuz.nosquash
 
 cp linux-"$(make kernelrelease)"-x86.tar.xz /root/linux-image.tar.xz
