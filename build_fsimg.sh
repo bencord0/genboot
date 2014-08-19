@@ -5,6 +5,7 @@ I=/root/rootfs.img
 M=mountpath
 
 rm -f "$I"
+rm -f "$I".xz
 truncate -s1G "$I"
 mkfs.ext4 "$I"
 
@@ -23,4 +24,4 @@ trap - EXIT
 
 e2fsck -f "$I"
 resize2fs -M "$I"
-xz "$I"
+xz "$I" && rm -f "$I"
