@@ -31,6 +31,9 @@ do
         cloudinit_retries=*)
             CLOUD_INIT_RETRIES=${x#*=} 
 	    ;;
+        root=*)
+            ROOTFS=${x#*=}
+            ;;
         *)
             ;;
     esac
@@ -39,6 +42,20 @@ done
 CLOUD_INIT_HOST=${CLOUD_INIT_HOST:=169.254.169.254}
 CLOUD_INIT_HOST_IP=$(echo ${CLOUD_INIT_HOST}|cut -d'/' -f1|cut -d':' -f1)
 CLOUD_INIT_RETRIES=${CLOUD_INIT_RETRIES:=5}
+
+function resize_rootfs {
+    ROOTFSTYPE=$(mount | grep "${ROOTFS}" | awk '{print $5}')
+    case "${ROOTFSTYPE}" in
+        ext*)
+            resize2fs "${ROOTFS}"
+            ;;
+        xfs)
+            xfs_grow "${ROOTFS}"
+            ;;
+        *)
+            ;;
+    esac
+}
 
 function _network_config {
     wget -O /tmp/user-data \
@@ -85,6 +102,8 @@ function _file_config {
 }
 
 ##############################################################
+
+resize_rootfs
 
 # Wait for networking
 net_is_ready () {
