@@ -10,6 +10,9 @@ truncate -s1G "$I"
 mkfs.ext4 "$I"
 
 mkdir -p "$M"
+
+# In some container environments, a loop device might not be available.
+ls /dev/loop0 || mknod /dev/loop0 b 7 0
 mount -o loop "$I" "$M" || exit 1
 function clean_up () {
     umount "$M"
