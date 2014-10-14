@@ -44,7 +44,6 @@ cat << EOF > stage-template/etc/portage/make.conf
 ACCEPT_KEYWORDS="amd64"
 EMERGE_DEFAULT_OPTS="--usepkg"
 FEATURES="buildpkg parallel-fetch parallel-install"
-PYTHON_TARGETS="python2_7 python3_4"
 USE="-consolekit systemd"
 EOF
 
