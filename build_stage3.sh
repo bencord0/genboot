@@ -114,8 +114,10 @@ Type=simple
 EOF
 
 # Cloud-init
-cp cloud-init.start chroot/etc/local.d/cloud-init.start
-chmod +x chroot/etc/local.d/cloud-init.start
+for svc in config final init; do
+ln -s "/usr/lib64/systemd/system/cloud-${svc}.service" \
+    "chroot/etc/systemd/system/multi-user.target.wants/cloud-${svc}.service"
+done
 
 # Uniqueness
 echo > chroot/etc/machine-id

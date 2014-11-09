@@ -19,6 +19,16 @@ for dir in $DIRS; do
     mkdir -p stage-template/$dir
 done
 
+cat << EOF > stage-template/etc/portage/package.keywords/app-emulation
+app-emulation/cloud-init
+EOF
+
+cat << EOF > stage-template/etc/portage/package.keywords/dev-python
+dev-python/jsonpatch
+dev-python/jsonpointer
+dev-python/oauth
+EOF
+
 cat << EOF > stage-template/etc/portage/package.keywords/sys-boot
 sys-boot/os-prober
 EOF
@@ -50,6 +60,7 @@ EOF
 cat << EOF > stage-template/var/lib/portage/world
 app-admin/ansible
 app-editors/vim
+app-emulation/cloud-init
 app-portage/eix
 app-portage/gentoolkit
 app-portage/portage-utils
