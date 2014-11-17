@@ -84,7 +84,7 @@ mount_squashfs_as_aufs()
     mount --bind "\$root" /sysroot/mnt/squashroot
 }
 
-if [ -n USING_SQUASHEDAUFS ]
+if [ -n "$USING_SQUASHEDAUFS" ]
 then
     mount_squashfs_as_aufs
 fi
