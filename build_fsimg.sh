@@ -6,7 +6,7 @@ M=mountpath
 
 rm -f "$I"
 rm -f "$I".xz
-truncate -s1G "$I"
+truncate -s2G "$I"
 mkfs.ext4 "$I"
 
 mkdir -p "$M"
