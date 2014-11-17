@@ -5,11 +5,14 @@ cd "$TOPDIR"
 
 EMERGE_FLAGS="--buildpkg --getbinpkg --update --jobs --deep --newuse"
 # Host needs to have a expanded toolchain
+# We'll also place ebuilds here that (mistakenly) also need users/groups
+# installed on the host.
 HDEPEND=" \
     dev-lang/swig \
     dev-libs/boost \
     dev-python/m2crypto \
     dev-util/boost-build \
+    sys-apps/man-db \
     sys-devel/automake \
     virtual/yacc \
 "
