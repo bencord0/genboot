@@ -37,8 +37,9 @@ cat << EOF > stage-template/etc/portage/package.keywords/sys-kernel
 sys-kernel/dracut
 EOF
 
-#cat << EOF > stage-template/etc/portage/package.mask
-#EOF
+cat << EOF > stage-template/etc/portage/package.mask
+sys-fs/udev
+EOF
 
 cat << EOF > stage-template/etc/portage/package.use/dev-lang
 dev-lang/python sqlite
