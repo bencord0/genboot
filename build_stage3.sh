@@ -62,7 +62,7 @@ for dep in $DBUS_DEPS1 $DBUS_DEPS2; do
         $dep
 done
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
-    --with-bdeps=y --complete-graph=y system
+    --with-bdeps=y --complete-graph=y system sys-apps/systemd
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --with-bdeps=y --complete-graph=y world
 
@@ -74,7 +74,7 @@ emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps $DBUS_DEPS2
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
-    --root-deps --with-bdeps=y --complete-graph=y system
+    --root-deps --with-bdeps=y --complete-graph=y system sys-apps/systemd
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --root-deps --with-bdeps=y --complete-graph=y world
 
