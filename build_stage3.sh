@@ -37,16 +37,24 @@ tar xavpf stage-template.tar.gz -C chroot
 # Stop when things go wrong
 set -ex
 
-# Build some host dependencies
+## Step 0: Update the host
 emerge $EMERGE_FLAGS --usepkg --oneshot \
     $HDEPEND
+
+## Note 1:Step 1 and 2 can be merged when HDEPEND is implemented.
+## Note 2: --oneshot DBUS_DEPS can be removed when portage learns
+##    how to handle @system dependencies properly when ROOT is
+##    an empty directory. This is not tested upstream since dbus
+##    is not part of the system set when using openrc.
+
+## Step 1: Build all packages and dependencies.
 # Building binary packages also installs compile-time dependencies
+# to the host system.
 export ROOT="${TOPDIR}"/chroot-prepare
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps $DBUS_DEPS1
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps $DBUS_DEPS2
-# Check that we have binaries. Don't use --update
 for dep in $DBUS_DEPS1 $DBUS_DEPS2; do
     eix --quiet --binary $dep || \
     emerge --ignore-default-opts --buildpkg --getbinpkg --jobs \
@@ -56,19 +64,21 @@ done
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --with-bdeps=y --complete-graph=y system
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
-    --root-deps --with-bdeps=y --complete-graph=y world
+    --with-bdeps=y --complete-graph=y world
 
-# Only install the runtime dependencies
+## Step 2: Install all packages and  dependencies from binpkgs
+# Make sure that everything needed is inside the ROOT.
 export ROOT="${TOPDIR}"/chroot
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps $DBUS_DEPS1
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps $DBUS_DEPS2
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
-    --with-bdeps=y --complete-graph=y system
+    --root-deps --with-bdeps=y --complete-graph=y system
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
-    --with-bdeps=y --complete-graph=y world
+    --root-deps --with-bdeps=y --complete-graph=y world
 
+## Step 3: Configure the system
 # Blank out the default root password
 sed -i -e '/root/ s/*//' chroot/etc/shadow
 
