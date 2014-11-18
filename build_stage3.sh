@@ -131,6 +131,7 @@ for svc in config final init; do
 ln -s "/usr/lib64/systemd/system/cloud-${svc}.service" \
     "chroot/etc/systemd/system/multi-user.target.wants/cloud-${svc}.service"
 done
+cp cloud.cfg chroot/etc/cloud/cloud.cfg
 
 # Uniqueness
 echo > chroot/etc/machine-id
