@@ -45,8 +45,10 @@ emerge $EMERGE_FLAGS --usepkg --oneshot \
 
 # BUG: sys-apps/man-db fails to 'chown man' in ROOT if the 'man'
 # user is not available in the host.
+# Note: do not use --update, the package might be installed, but
+# the user might not be created if this bug has been encountered.
 getent passwd man > /dev/null || \
-emerge $EMERGE_FLAGS --usepkg --oneshot \
+emerge --buildpkg --getbinpkg --usepkg --oneshot \
     sys-apps/man-db
 
 ## Note 1:Step 1 and 2 can be merged when HDEPEND is implemented.
