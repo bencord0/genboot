@@ -12,7 +12,6 @@ HDEPEND=" \
     dev-libs/boost \
     dev-python/m2crypto \
     dev-util/boost-build \
-    sys-apps/man-db \
     sys-devel/automake \
     virtual/yacc \
 "
@@ -43,6 +42,12 @@ set -ex
 ## Step 0: Update the host
 emerge $EMERGE_FLAGS --usepkg --oneshot \
     $HDEPEND
+
+# BUG: sys-apps/man-db fails to 'chown man' in ROOT if the 'man'
+# user is not available in the host.
+getent passwd man > /dev/null || \
+emerge $EMERGE_FLAGS --usepkg --oneshot \
+    sys-apps/man-db
 
 ## Note 1:Step 1 and 2 can be merged when HDEPEND is implemented.
 ## Note 2: --oneshot DBUS_DEPS can be removed when portage learns
