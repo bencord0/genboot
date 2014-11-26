@@ -56,7 +56,7 @@ done
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --with-bdeps=y --complete-graph=y system
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
-    --root-deps --with-bdeps=y --complete-graph=y world
+    --with-bdeps=y --complete-graph=y world
 
 # Only install the runtime dependencies
 export ROOT="${TOPDIR}"/chroot
@@ -65,9 +65,9 @@ emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps $DBUS_DEPS2
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
-    --with-bdeps=y --complete-graph=y system
+    --root-deps --with-bdeps=y --complete-graph=y system
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
-    --with-bdeps=y --complete-graph=y world
+    --root-deps=rdeps --with-bdeps=n --complete-graph=y world
 
 # Blank out the default root password
 sed -i -e '/root/ s/*//' chroot/etc/shadow
