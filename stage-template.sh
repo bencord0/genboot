@@ -66,11 +66,13 @@ EOF
 
 cat << EOF > stage-template/var/lib/portage/world
 app-admin/ansible
+app-admin/sudo
 app-editors/vim
 app-emulation/cloud-init
 app-portage/eix
 app-portage/gentoolkit
 app-portage/portage-utils
+dev-python/virtualenv
 dev-vcs/git
 net-dns/bind-tools
 net-misc/bridge-utils
