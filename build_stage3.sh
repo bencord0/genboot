@@ -136,6 +136,7 @@ EOF
 # Cloud-init
 ## Bug: the cloud-*.service units should run after network-online.target
 ## Bug: cloud-init.service should not need sshd-keygen.service in Gentoo
+mkdir -p "chroot/etc/systemd/system/network-online.target.wants"
 for svc in config final init; do
 ln -s "/usr/lib64/systemd/system/cloud-${svc}.service" \
     "chroot/etc/systemd/system/multi-user.target.wants/cloud-${svc}.service"
