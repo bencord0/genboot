@@ -164,17 +164,22 @@ cd /root
 
 # These files can be used to install Gentoo from stage3
 ls -l stage3-systemd.tar.xz # Stage 3 tarball of the rootfs
-ls -l initramfs.nosquash    # Normal initramfs, no embedded rootfs
-ls -l linux-image.tar.xz    # vmlinuz + modules tarball
+ls -l systemd.squashfs      # Stage 3 squashfs of the rootfs
 ls -l portage.tar.xz        # portage snapshot, with distfiles and binpkgs
 
-# These are extra files created during the build
-ls -l systemd.squashfs      # Stage 3 squashfs of the rootfs
-ls -l initramfs             # Dracut ramdisk with embeddeed squashfs rootfs
-ls -l initramfs.cpio        # Uncompressed initramfs with embedded rootfs,
-                            # needed during the final kernel build
+ls -l initramfs.cpio        # Uncompressed initramfs with embedded squashfs
+                            # Useful for anyone repacking the kernel.
+
+# These are the normal linux image archives, without an embedded squashfs
+ls -l linux-image.tar.xz    # vmlinuz + modules tarball (no squash)
+ls -l vmlinuz.nosquash      # Normal kernel image, no initramfs
+ls -l initramfs.nosquash    # Normal initramfs (with modules), no rootfs
 
 # This is the ultimate build artifact, a self contained kernel image
 # with the bundled initramfs and squashfs/aufs based environment.
 ls -l vmlinuz               # Single kernel image, with initramfs and rootfs
 
+# To install a new system, PXE boot into the bundled kernel image, partition and
+# create a filesystem and then extract the stage3 tarball, linux-image tarball
+# and portage tree (to /usr).
+# Grub2 is also included, so the new system can be self hosting.

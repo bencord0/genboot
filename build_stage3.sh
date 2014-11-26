@@ -5,6 +5,8 @@ cd "$TOPDIR"
 
 EMERGE_FLAGS="--buildpkg --getbinpkg --update --jobs --deep --newuse"
 # Host needs to have a expanded toolchain
+# We'll also place ebuilds here that (mistakenly) also need users/groups
+# installed on the host.
 HDEPEND=" \
     dev-lang/swig \
     dev-libs/boost \
@@ -37,16 +39,32 @@ tar xavpf stage-template.tar.gz -C chroot
 # Stop when things go wrong
 set -ex
 
-# Build some host dependencies
+## Step 0: Update the host
 emerge $EMERGE_FLAGS --usepkg --oneshot \
     $HDEPEND
+
+# BUG: sys-apps/man-db fails to 'chown man' in ROOT if the 'man'
+# user is not available in the host.
+# Note: do not use --update, the package might be installed, but
+# the user might not be created if this bug has been encountered.
+getent passwd man > /dev/null || \
+emerge --buildpkg --getbinpkg --usepkg --oneshot \
+    sys-apps/man-db
+
+## Note 1:Step 1 and 2 can be merged when HDEPEND is implemented.
+## Note 2: --oneshot DBUS_DEPS can be removed when portage learns
+##    how to handle @system dependencies properly when ROOT is
+##    an empty directory. This is not tested upstream since dbus
+##    is not part of the system set when using openrc.
+
+## Step 1: Build all packages and dependencies.
 # Building binary packages also installs compile-time dependencies
+# to the host system.
 export ROOT="${TOPDIR}"/chroot-prepare
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps $DBUS_DEPS1
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps $DBUS_DEPS2
-# Check that we have binaries. Don't use --update
 for dep in $DBUS_DEPS1 $DBUS_DEPS2; do
     eix --quiet --binary $dep || \
     emerge --ignore-default-opts --buildpkg --getbinpkg --jobs \
@@ -54,11 +72,12 @@ for dep in $DBUS_DEPS1 $DBUS_DEPS2; do
         $dep
 done
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
-    --with-bdeps=y --complete-graph=y system
+    --with-bdeps=y --complete-graph=y system sys-apps/systemd
 emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --with-bdeps=y --complete-graph=y world
 
-# Only install the runtime dependencies
+## Step 2: Install all packages and  dependencies from binpkgs
+# Make sure that everything needed is inside the ROOT.
 export ROOT="${TOPDIR}"/chroot
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps $DBUS_DEPS1
@@ -69,6 +88,7 @@ emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --root-deps=rdeps --with-bdeps=n --complete-graph=y world
 
+## Step 3: Configure the system
 # Blank out the default root password
 sed -i -e '/root/ s/*//' chroot/etc/shadow
 
@@ -114,10 +134,15 @@ Type=simple
 EOF
 
 # Cloud-init
+## Bug: the cloud-*.service units should run after network-online.target
+## Bug: cloud-init.service should not need sshd-keygen.service in Gentoo
 for svc in config final init; do
 ln -s "/usr/lib64/systemd/system/cloud-${svc}.service" \
     "chroot/etc/systemd/system/multi-user.target.wants/cloud-${svc}.service"
+ln -s "/usr/lib64/systemd/system/cloud-${svc}.service" \
+    "chroot/etc/systemd/system/network-online.target.wants/cloud-${svc}.service"
 done
+cp cloud.cfg chroot/etc/cloud/cloud.cfg
 
 # Uniqueness
 echo > chroot/etc/machine-id
@@ -126,6 +151,10 @@ echo > chroot/etc/machine-id
 chown root chroot/var/empty
 ln -s '/usr/lib64/systemd/system/sshd.service' \
     'chroot/etc/systemd/system/multi-user.target.wants/sshd.service'
+
+# Allow NFS client mounts
+ln -s '/usr/lib64/systemd/system/rpc-mountd.service' \
+    'chroot/etc/systemd/system/multi-user.target.wants/rpc-mountd.service'
 
 rm -f /root/systemd.squashfs || true
 rm -f /root/stage3-systemd.tar.xz || true
