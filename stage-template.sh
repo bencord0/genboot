@@ -23,10 +23,18 @@ cat << EOF > stage-template/etc/portage/package.keywords/app-emulation
 app-emulation/cloud-init
 EOF
 
+cat << EOF > stage-templates/etc/portage/package.keywords/app-portage
+app-portage/layman
+EOF
+
 cat << EOF > stage-template/etc/portage/package.keywords/dev-python
 dev-python/jsonpatch
 dev-python/jsonpointer
 dev-python/oauth
+EOF
+
+cat << EOF > stage-template/etc/portage/package.keywords/sys-apps
+sys-apps/portage
 EOF
 
 cat << EOF > stage-template/etc/portage/package.keywords/sys-boot
@@ -71,6 +79,7 @@ app-editors/vim
 app-emulation/cloud-init
 app-portage/eix
 app-portage/gentoolkit
+app-portage/layman
 app-portage/portage-utils
 dev-python/virtualenv
 dev-vcs/git
