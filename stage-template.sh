@@ -95,6 +95,7 @@ app-portage/layman
 app-portage/portage-utils
 dev-python/virtualenv
 dev-vcs/git
+mail-mta/opensmtpd
 net-dns/bind-tools
 net-misc/bridge-utils
 net-misc/curl
