@@ -72,6 +72,18 @@ FEATURES="buildpkg parallel-fetch parallel-install"
 USE="-consolekit systemd"
 EOF
 
+mkdir -p stage-template/etc/portage/repos.d
+cat << EOF > stage-template/etc/portage/repos.d/gentoo.conf
+[DEFAULT]
+main-repo = gentoo
+
+[gentoo]
+location = /usr/portage
+sync-type = rsync
+sync-uri = rsync://rsync.gentoo.org/gentoo-portage
+auto-sync = yes
+EOF
+
 cat << EOF > stage-template/var/lib/portage/world
 app-admin/ansible
 app-admin/sudo
