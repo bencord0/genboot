@@ -23,10 +23,6 @@ cat << EOF > stage-template/etc/portage/package.keywords/app-emulation
 app-emulation/cloud-init
 EOF
 
-cat << EOF > stage-templates/etc/portage/package.keywords/app-portage
-app-portage/layman
-EOF
-
 cat << EOF > stage-template/etc/portage/package.keywords/dev-python
 dev-python/jsonpatch
 dev-python/jsonpointer
