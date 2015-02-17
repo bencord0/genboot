@@ -87,6 +87,7 @@ app-editors/vim
 app-emulation/cloud-init
 app-portage/eix
 app-portage/gentoolkit
+app-portage/layman
 app-portage/portage-utils
 dev-python/virtualenv
 dev-vcs/git
