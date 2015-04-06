@@ -68,7 +68,8 @@ cat << EOF > 81squashedoverlay-root/mount-squashedoverlay-root.sh
 mount_squashfs_as_overlay()
 {
     info "Creating a tmpfs for root"
-    mkdir -p /tmproot
+    mkdir -p /tmproot/root
+    mkdir -p /tmproot/work
     mount -t tmpfs tmpfs /tmproot -o size=90%
 
     info "Mounting squashfs"
@@ -76,15 +77,16 @@ mount_squashfs_as_overlay()
     mount -t squashfs "\$root" /squashroot
 
     info "Unioning rootfs"
-    mount -t overlay overlay /sysroot -olowerdir=/squashroot,upperdir=/tmproot
+    mount -t overlay overlay /sysroot \
+	-olowerdir=/squashroot,upperdir=/tmproot/root,workdir=/tmproot/work
 
     info "Exposing read-only squashroot image as /mnt/squashroot"
     mkdir -p /sysroot/mnt
-    touch /sysroot/mnt/squashroot
+    : > /sysroot/mnt/squashroot
     mount --bind "\$root" /sysroot/mnt/squashroot
 }
 
-if [ -n "$USING_SQUASHEDOVERLAY" ]
+if [ -n "\$USING_SQUASHEDOVERLAY" ]
 then
     mount_squashfs_as_overlay
 fi
