@@ -68,9 +68,9 @@ cat << EOF > 81squashedoverlay-root/mount-squashedoverlay-root.sh
 mount_squashfs_as_overlay()
 {
     info "Creating a tmpfs for root"
-    mkdir -p /tmproot/root
-    mkdir -p /tmproot/work
+    mkdir -p /tmproot
     mount -t tmpfs tmpfs /tmproot -o size=90%
+    mkdir -p /tmproot/root /tmproot/work
 
     info "Mounting squashfs"
     mkdir -p /squashroot
