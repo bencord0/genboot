@@ -113,6 +113,27 @@ DHCP=both
 EOF
 ln -sf /run/systemd/resolve/resolv.conf chroot/etc/resolv.conf
 
+# Autologin
+mkdir -p chroot/etc/systemd/system/getty@tty1.service.d
+cat << EOF > chroot/etc/systemd/system/getty@tty1.service.d/autologin.conf
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --autologin root --noclear %I 38400 linux
+EOF
+mkdir -p chroot/etc/systemd/system/getty@hvc0.service.d
+cat << EOF > chroot/etc/systemd/system/getty@hvc0.service.d/autologin.conf
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --autologin root --noclear %I 38400 linux
+EOF
+mkdir -p chroot/etc/systemd/system/serial-getty@ttyS0.service.d
+cat << EOF > chroot/etc/systemd/system/serial-getty@ttyS0.service.d/autologin.conf
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --autologin root -s %I 115200,38400,9600 vt102
+Type=simple
+EOF
+
 # Cloud-init
 ## Bug: the cloud-*.service units should run after network-online.target
 ## Bug: cloud-init.service should not need sshd-keygen.service in Gentoo
