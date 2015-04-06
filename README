@@ -94,6 +94,8 @@
 # Gentoo infrastructure.
 set -x
 
+# With recent versions of portage (currently arch) eix-update could be
+# removed here and replaced with a postsync hook.
 time emerge --sync --quiet && \
 eix-update # Only update if there's anything to update
 
