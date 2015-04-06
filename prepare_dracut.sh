@@ -43,7 +43,7 @@ depends() {
 }
 
 install() {
-    inst_hook cmdline 81 "\$moddir/cmdline-squashedoverlay-root.conf"
+    inst_hook cmdline 81 "\$moddir/cmdline-squashedoverlay-root.sh"
     inst_hook mount 81 "\$moddir/mount-squashedoverlay-root.sh"
     inst_hook pre-pivot 81 "\$moddir/pre-pivot-squashedoverlay-root.sh"
     inst "\$moddir/squashedoverlay-root.conf" /etc/cmdline.d/squashedoverlay-root.conf
@@ -51,18 +51,17 @@ install() {
 EOF
 chmod +x 81squashedoverlay-root/module-setup.sh
 
-cat << EOF > 81squashedoverlay-root/cmdline-squashedoverlay-root.conf
+cat << EOF > 81squashedoverlay-root/cmdline-squashedoverlay-root.sh
 case "\$root" in
     *.squashfs)
         wait_for_dev "\$root"
         rootok=1
-        USING_SQUASHEDOVERLAY=1
+        export USING_SQUASHEDOVERLAY=1
         ;;
 esac
 EOF
 
 cat << EOF > 81squashedoverlay-root/mount-squashedoverlay-root.sh
-#!/bin/bash
 mount_squashfs_as_overlay()
 {
     info "Creating a tmpfs for root"
@@ -89,14 +88,11 @@ then
     mount_squashfs_as_overlay
 fi
 EOF
-chmod +x 81squashedoverlay-root/mount-squashedoverlay-root.sh
 
 cat << EOF > 81squashedoverlay-root/pre-pivot-squashedoverlay-root.sh
-#!/bin/bash
 mkdir -p /sysroot/lib/modules
 cp -r /lib/modules/* /sysroot/lib/modules/
 EOF
-chmod +x 81squashedoverlay-root/pre-pivot-squashedoverlay-root.sh
 
 echo 'root=/root.squashfs' > 81squashedoverlay-root/squashedoverlay-root.conf
 
