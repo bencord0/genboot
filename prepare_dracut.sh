@@ -43,7 +43,7 @@ depends() {
 }
 
 install() {
-    inst_hook cmdline 81 "\$moddir/cmdline-squashedoverlay-root.sh"
+    inst_hook cmdline 81 "\$moddir/cmdline-squashedoverlay-root.conf"
     inst_hook mount 81 "\$moddir/mount-squashedoverlay-root.sh"
     inst_hook pre-pivot 81 "\$moddir/pre-pivot-squashedoverlay-root.sh"
     inst "\$moddir/squashedoverlay-root.conf" /etc/cmdline.d/squashedoverlay-root.conf
@@ -51,8 +51,7 @@ install() {
 EOF
 chmod +x 81squashedoverlay-root/module-setup.sh
 
-cat << EOF > 81squashedoverlay-root/cmdline-squashedoverlay-root.sh
-#!/bin/sh
+cat << EOF > 81squashedoverlay-root/cmdline-squashedoverlay-root.conf
 case "\$root" in
     *.squashfs)
         wait_for_dev "\$root"
@@ -61,7 +60,6 @@ case "\$root" in
         ;;
 esac
 EOF
-chmod +x 81squashedoverlay-root/cmdline-squashedoverlay-root.sh
 
 cat << EOF > 81squashedoverlay-root/mount-squashedoverlay-root.sh
 #!/bin/bash
