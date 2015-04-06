@@ -28,11 +28,11 @@ chmod +x 80console/module-setup.sh
 echo 'console=tty0' > 80console/console-tty0.conf
 echo 'console=ttyS0,115200' > 80console/console-ttyS0.conf
 
-##################################
-# Rootfs = aufs(squashfs, tmpfs) #
-##################################
-mkdir -p 81squashedaufs-root
-cat << EOF > 81squashedaufs-root/module-setup.sh
+#######################################
+# Rootfs = overlayfs(squashfs, tmpfs) #
+#######################################
+mkdir -p 81squashedoverlay-root
+cat << EOF > 81squashedoverlay-root/module-setup.sh
 #!/bin/bash
 check() {
     return 0
@@ -43,29 +43,29 @@ depends() {
 }
 
 install() {
-    inst_hook cmdline 81 "\$moddir/cmdline-squashedaufs-root.sh"
-    inst_hook mount 81 "\$moddir/mount-squashedaufs-root.sh"
-    inst_hook pre-pivot 81 "\$moddir/pre-pivot-squashedaufs-root.sh"
-    inst "\$moddir/squashedaufs-root.conf" /etc/cmdline.d/squashedaufs-root.conf
+    inst_hook cmdline 81 "\$moddir/cmdline-squashedoverlay-root.sh"
+    inst_hook mount 81 "\$moddir/mount-squashedoverlay-root.sh"
+    inst_hook pre-pivot 81 "\$moddir/pre-pivot-squashedoverlay-root.sh"
+    inst "\$moddir/squashedoverlay-root.conf" /etc/cmdline.d/squashedoverlay-root.conf
 }
 EOF
-chmod +x 81squashedaufs-root/module-setup.sh
+chmod +x 81squashedoverlay-root/module-setup.sh
 
-cat << EOF > 81squashedaufs-root/cmdline-squashedaufs-root.sh
+cat << EOF > 81squashedoverlay-root/cmdline-squashedoverlay-root.sh
 #!/bin/sh
 case "\$root" in
     *.squashfs)
         wait_for_dev "\$root"
         rootok=1
-        USING_SQUASHEDAUFS=1
+        USING_SQUASHEDOVERLAY=1
         ;;
 esac
 EOF
-chmod +x 81squashedaufs-root/cmdline-squashedaufs-root.sh
+chmod +x 81squashedoverlay-root/cmdline-squashedoverlay-root.sh
 
-cat << EOF > 81squashedaufs-root/mount-squashedaufs-root.sh
+cat << EOF > 81squashedoverlay-root/mount-squashedoverlay-root.sh
 #!/bin/bash
-mount_squashfs_as_aufs()
+mount_squashfs_as_overlay()
 {
     info "Creating a tmpfs for root"
     mkdir -p /tmproot
@@ -76,29 +76,29 @@ mount_squashfs_as_aufs()
     mount -t squashfs "\$root" /squashroot
 
     info "Unioning rootfs"
-    mount -t aufs -o br:/tmproot:/squashroot none /sysroot
+    mount -t overlay overlay /sysroot -olowerdir=/squashroot,upperdir=/tmproot
 
-    info "Exposing squashroot image as /mnt/squashroot"
+    info "Exposing read-only squashroot image as /mnt/squashroot"
     mkdir -p /sysroot/mnt
     touch /sysroot/mnt/squashroot
     mount --bind "\$root" /sysroot/mnt/squashroot
 }
 
-if [ -n "$USING_SQUASHEDAUFS" ]
+if [ -n "$USING_SQUASHEDOVERLAY" ]
 then
-    mount_squashfs_as_aufs
+    mount_squashfs_as_overlay
 fi
 EOF
-chmod +x 81squashedaufs-root/mount-squashedaufs-root.sh
+chmod +x 81squashedoverlay-root/mount-squashedoverlay-root.sh
 
-cat << EOF > 81squashedaufs-root/pre-pivot-squashedaufs-root.sh
+cat << EOF > 81squashedoverlay-root/pre-pivot-squashedoverlay-root.sh
 #!/bin/bash
 mkdir -p /sysroot/lib/modules
 cp -r /lib/modules/* /sysroot/lib/modules/
 EOF
-chmod +x 81squashedaufs-root/pre-pivot-squashedaufs-root.sh
+chmod +x 81squashedoverlay-root/pre-pivot-squashedoverlay-root.sh
 
-echo 'root=/root.squashfs' > 81squashedaufs-root/squashedaufs-root.conf
+echo 'root=/root.squashfs' > 81squashedoverlay-root/squashedoverlay-root.conf
 
 ################
 # Init systemd #

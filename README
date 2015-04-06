@@ -66,7 +66,7 @@
 #     non-privilaged user.
 #   - However, bridged networking is more performant that user networking,
 #     and may require administratice access on the host. Not covered here.
-#   - While the kernel is fairly standard (sys-kernel/aufs-sources), however
+#   - While the kernel is fairly standard (sys-kernel/gentoo-sources), however
 #     network drivers and other config is tailored for my environment,
 #     i.e. qemu/kvm virtio.
 #     PXE booting may work, but your hardware might be different.
@@ -176,7 +176,7 @@ ls -l vmlinuz.nosquash      # Normal kernel image, no initramfs
 ls -l initramfs.nosquash    # Normal initramfs (with modules), no rootfs
 
 # This is the ultimate build artifact, a self contained kernel image
-# with the bundled initramfs and squashfs/aufs based environment.
+# with the bundled initramfs and squashfs/overlayfs live environment.
 ls -l vmlinuz               # Single kernel image, with initramfs and rootfs
 
 # To install a new system, PXE boot into the bundled kernel image, partition and
