@@ -144,10 +144,6 @@ else
     git clone https://github.com/bencord0/genboot.git /root/genboot --branch "$git_branch"
 fi
 
-# Handbook installations and official Gentoo releases use catalyst
-# from inside the chroot. We are not, so make portage aware of this.
-(cd /; patch -p0 -l -N < /root/genboot/user.eclass.patch) || true
-
 cd /root/genboot
 bash stage-template.sh
 bash build_stage3.sh
