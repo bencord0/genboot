@@ -70,12 +70,11 @@ mount_squashfs_as_overlay()
     mkdir -p /tmproot/root /tmproot/work
 
     info "Mounting squashfs"
-    mkdir -p /squashroot
-    mount -t squashfs "\$root" /squashroot
+    mount -t squashfs "\$root" /sysroot
 
     info "Unioning rootfs"
     mount -t overlay overlay /sysroot \
-	-olowerdir=/squashroot,upperdir=/tmproot/root,workdir=/tmproot/work
+	-olowerdir=/sysroot,upperdir=/tmproot/root,workdir=/tmproot/work
 
     info "Exposing read-only squashroot image as /mnt/squashroot"
     mkdir -p /sysroot/mnt
