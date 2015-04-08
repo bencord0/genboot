@@ -88,6 +88,6 @@ emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --root-deps --with-bdeps=y --complete-graph=y system
 
 ## Step 3: Install everything, in place, quickly.
-systemd-nspawn --bind /usr/portage -D $ROOT emerge --empty-tree \
+systemd-nspawn --bind /usr/portage -D $ROOT emerge --emptytree \
     --usepkgonly --jobs --with-bdeps=n --complete-graph=y world
 
