@@ -78,7 +78,7 @@ emerge $EMERGE_FLAGS --usepkg --config-root=$ROOT --root=$ROOT \
     --with-bdeps=y --complete-graph=y world
 
 ## Step 2: Install all packages and  dependencies from binpkgs
-# Make sure that everything needed is inside the ROOT.
+# Make sure that everything needed for 'emerge' is inside the ROOT.
 export ROOT="${TOPDIR}"/chroot
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps $DBUS_DEPS1
@@ -88,6 +88,8 @@ emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --root-deps --with-bdeps=y --complete-graph=y system
 
 ## Step 3: Install everything, in place, quickly.
+# --emptytree is used, replacing --update to force a reinstall
+# of all packages to pickup portage installed users and groups.
 systemd-nspawn --bind /usr/portage -D $ROOT emerge --emptytree \
     --usepkgonly --jobs --with-bdeps=n --complete-graph=y world
 
