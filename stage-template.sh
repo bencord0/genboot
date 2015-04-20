@@ -5,6 +5,7 @@ DIRS="
     dev
     etc/portage/package.keywords
     etc/portage/package.use
+    etc/portage/repos.conf
     home
     mnt/gentoo
     proc
@@ -23,18 +24,10 @@ cat << EOF > stage-template/etc/portage/package.keywords/app-emulation
 app-emulation/cloud-init
 EOF
 
-cat << EOF > stage-templates/etc/portage/package.keywords/app-portage
-app-portage/layman
-EOF
-
 cat << EOF > stage-template/etc/portage/package.keywords/dev-python
 dev-python/jsonpatch
 dev-python/jsonpointer
 dev-python/oauth
-EOF
-
-cat << EOF > stage-template/etc/portage/package.keywords/sys-apps
-sys-apps/portage
 EOF
 
 cat << EOF > stage-template/etc/portage/package.keywords/sys-boot
@@ -71,17 +64,13 @@ FEATURES="buildpkg parallel-fetch parallel-install"
 USE="-consolekit systemd"
 EOF
 
-mkdir -p stage-template/etc/portage/repos.d
-cat << EOF > stage-template/etc/portage/repos.d/gentoo.conf
-[DEFAULT]
-main-repo = gentoo
+cp /usr/share/portage/config/repos.conf stage-template/etc/portage/repos.conf/gentoo.conf
 
-[gentoo]
-location = /usr/portage
-sync-type = rsync
-sync-uri = rsync://rsync.gentoo.org/gentoo-portage
-auto-sync = yes
+cat << EOF stage-template/etc/portage/postsync.d/eix-update
+#!/bin/bash
+[ -x /usr/bin/eix-update ] && /usr/bin/eix-update
 EOF
+chmod +x stage-template/etc/portage/postsync.d/eix-update
 
 cat << EOF > stage-template/var/lib/portage/world
 app-admin/ansible
