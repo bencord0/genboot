@@ -30,10 +30,9 @@ rm -rf "chroot-prepare" "chroot"
 mkdir "chroot-prepare" "chroot"
 tar xavpf stage-template.tar.gz -C chroot-prepare && {
     grep MAKEOPTS /etc/portage/make.conf >> chroot-prepare/etc/portage/make.conf
-    grep SYNC /etc/portage/make.conf >> chroot-prepare/etc/portage/make.conf
     grep PORTAGE_BINHOST /etc/portage/make.conf >> chroot-prepare/etc/portage/make.conf
 
-    cp /etc/portage/repos.d/gentoo.conf chroot-prepare/etc/portage/repos.d/gentoo.conf
+    cp /etc/portage/repos.conf/gentoo.conf chroot-prepare/etc/portage/repos.conf/gentoo.conf
 }
 tar xavpf stage-template.tar.gz -C chroot
 
