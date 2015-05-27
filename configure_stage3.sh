@@ -57,6 +57,12 @@ ln -s "/usr/lib64/systemd/system/cloud-${svc}.service" \
 done
 cp cloud.cfg chroot/etc/cloud/cloud.cfg
 
+# Enable LVM socket daemons
+for socket in lvm2-lvmetad dm-event; do
+ln -s "/usr/lib64/systemd/system/${socket}.socket" \
+    "chroot/etc/systemd/system/multi-user.target.wants/${socket}.socket"
+done
+
 # Uniqueness
 echo > chroot/etc/machine-id
 
