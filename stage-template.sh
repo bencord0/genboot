@@ -7,6 +7,8 @@ DIRS="
     etc/portage/package.use
     etc/portage/repos.conf
     home
+    lib32
+    lib64
     mnt/gentoo
     proc
     root

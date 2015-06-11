@@ -8,19 +8,17 @@ EMERGE_FLAGS="--buildpkg --getbinpkg --update --jobs --deep --newuse"
 # We'll also place ebuilds here that (mistakenly) also need users/groups
 # installed on the host.
 HDEPEND=" \
-    dev-lang/swig \
     dev-libs/boost \
-    dev-python/m2crypto \
     dev-util/boost-build \
     sys-devel/automake \
     virtual/yacc \
 "
 DBUS_DEPS1=" \
+    sys-apps/baselayout \
     sys-libs/glibc \
     sys-libs/cracklib \
     sys-libs/pam \
     sys-apps/shadow \
-    sys-apps/baselayout \
 "
 DBUS_DEPS2=" \
     sys-auth/pambase \
