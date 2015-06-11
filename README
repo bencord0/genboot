@@ -41,7 +41,6 @@
 #
 
 # When inside the VM, login as root and run this README file.
-# $ curl https://raw.github.com/bencord0/genboot/master/README | bash
 
 # You can use the supplied the kernel image available from
 # the github releases page.
@@ -96,11 +95,6 @@ set -x
 
 time emerge --sync --quiet
 
-# Enable ssh, not sure why the ebuild didn't set these directories properly
-chown root /var/empty
-chmod 755 /var/empty
-systemctl start sshd || /etc/init.d/sshd start
-
 # Run /usr/bin/passwd to set a password to enable remote logins.
 # (optional) passwd
 
@@ -131,15 +125,6 @@ git --version || {
         --usepkg --buildpkg --getbinpkg \
         dev-vcs/git
 }
-
-git_branch="${1:-master}"
-
-if [ -d /root/genboot ];
-then
-    (cd /root/genboot; git fetch; git checkout "$git_branch")
-else
-    git clone https://github.com/bencord0/genboot.git /root/genboot --branch "$git_branch"
-fi
 
 cd /root/genboot
 bash stage-template.sh
