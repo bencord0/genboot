@@ -27,7 +27,11 @@ DBUS_DEPS2=" \
 rm -rf "chroot-prepare" "chroot"
 mkdir "chroot-prepare" "chroot"
 tar xavpf stage-template.tar.gz -C chroot-prepare && {
-    grep MAKEOPTS /etc/portage/make.conf >> chroot-prepare/etc/portage/make.conf
+## Local chroot-prepare modifications go here
+## The chroot directory will remian pristine
+
+# parallelism bug in make-4.1?
+#    grep MAKEOPTS /etc/portage/make.conf >> chroot-prepare/etc/portage/make.conf
     grep PORTAGE_BINHOST /etc/portage/make.conf >> chroot-prepare/etc/portage/make.conf
 
     cp /etc/portage/repos.conf/gentoo.conf chroot-prepare/etc/portage/repos.conf/gentoo.conf
