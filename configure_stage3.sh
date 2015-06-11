@@ -10,6 +10,12 @@ echo -n > chroot/etc/fstab
 # List mounts correctly
 ln -sf /proc/mounts chroot/etc/mtab
 
+# Create systemd admin directories
+mkdir -p \
+    "chroot/etc/systemd/system/multi-user.target.wants" \
+    "chroot/etc/systemd/system/remote-fs.target.wants" \
+
+
 # Start systemd services
 for svc in networkd resolved timesyncd; do
 ln -s "/usr/lib64/systemd/system/systemd-${svc}.service" \
@@ -24,36 +30,11 @@ DHCP=both
 EOF
 ln -sf /run/systemd/resolve/resolv.conf chroot/etc/resolv.conf
 
-# Autologin
-mkdir -p chroot/etc/systemd/system/getty@tty1.service.d
-cat << EOF > chroot/etc/systemd/system/getty@tty1.service.d/autologin.conf
-[Service]
-ExecStart=
-ExecStart=-/sbin/agetty --autologin root --noclear %I 38400 linux
-EOF
-mkdir -p chroot/etc/systemd/system/getty@hvc0.service.d
-cat << EOF > chroot/etc/systemd/system/getty@hvc0.service.d/autologin.conf
-[Service]
-ExecStart=
-ExecStart=-/sbin/agetty --autologin root --noclear %I 38400 linux
-EOF
-mkdir -p chroot/etc/systemd/system/serial-getty@ttyS0.service.d
-cat << EOF > chroot/etc/systemd/system/serial-getty@ttyS0.service.d/autologin.conf
-[Service]
-ExecStart=
-ExecStart=-/sbin/agetty --autologin root -s %I 115200,38400,9600 vt102
-Type=simple
-EOF
-
 # Cloud-init
-## Bug: the cloud-*.service units should run after network-online.target
 ## Bug: cloud-init.service should not need sshd-keygen.service in Gentoo
-mkdir -p "chroot/etc/systemd/system/network-online.target.wants"
-for svc in config final init; do
+for svc in config final init init-local; do
 ln -s "/usr/lib64/systemd/system/cloud-${svc}.service" \
     "chroot/etc/systemd/system/multi-user.target.wants/cloud-${svc}.service"
-ln -s "/usr/lib64/systemd/system/cloud-${svc}.service" \
-    "chroot/etc/systemd/system/network-online.target.wants/cloud-${svc}.service"
 done
 cp cloud.cfg chroot/etc/cloud/cloud.cfg
 
@@ -72,8 +53,10 @@ ln -s '/usr/lib64/systemd/system/sshd.service' \
     'chroot/etc/systemd/system/multi-user.target.wants/sshd.service'
 
 # Allow NFS client mounts
-ln -s '/usr/lib64/systemd/system/rpc-mountd.service' \
-    'chroot/etc/systemd/system/multi-user.target.wants/rpc-mountd.service'
+ln -s '/usr/lib64/systemd/system/nfs-client.target' \
+    'chroot/etc/systemd/system/multi-user.target.wants/nfs-client.target'
+ln -s '/usr/lib64/systemd/system/nfs-client.target' \
+    'chroot/etc/systemd/system/remote-fs.target.wants/nfs-client.target'
 
 rm -f /root/systemd.squashfs || true
 rm -f /root/stage3-systemd.tar.xz || true
