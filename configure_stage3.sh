@@ -37,6 +37,7 @@ ln -s "/usr/lib64/systemd/system/cloud-${svc}.service" \
     "chroot/etc/systemd/system/multi-user.target.wants/cloud-${svc}.service"
 done
 cp cloud.cfg chroot/etc/cloud/cloud.cfg
+cp 05_logging.cfg chroot/etc/cloud/cloud.cfg.d/05_logging.cfg
 
 # Enable LVM socket daemons
 for socket in lvm2-lvmetad dm-event; do
