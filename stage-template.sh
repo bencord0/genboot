@@ -61,7 +61,7 @@ EOF
 
 cp /usr/share/portage/config/repos.conf stage-template/etc/portage/repos.conf/gentoo.conf
 
-cat << EOF stage-template/etc/portage/postsync.d/eix-update
+cat << EOF > stage-template/etc/portage/postsync.d/eix-update
 #!/bin/bash
 [ -x /usr/bin/eix-update ] && /usr/bin/eix-update
 EOF
