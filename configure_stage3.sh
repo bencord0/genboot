@@ -4,8 +4,11 @@
 # Blank out the default root password
 sed -i -e '/root/ s/*//' chroot/etc/shadow
 
-# Don't bother looking for other filesystems (esp. SWAP)
-echo -n > chroot/etc/fstab
+# Write a portable fstab
+cat << EOF > "chroot/etc/fstab"
+/dev/vda / auto defaults 0 0
+/dev/xvda / auto defaults 0 0
+EOF
 
 # List mounts correctly
 ln -sf /proc/mounts chroot/etc/mtab
