@@ -39,6 +39,94 @@ done
 cp cloud.cfg chroot/etc/cloud/cloud.cfg
 cp 05_logging.cfg chroot/etc/cloud/cloud.cfg.d/05_logging.cfg
 
+# Rewrite cloud init service files
+cat << EOF > "chroot/usr/lib64/systemd/system/cloud-config.service"
+[Unit]
+Description=Apply the settings specified in cloud-config
+After=network-online.target syslog.target cloud-config.target
+Requires=cloud-config.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/cloud-init modules --mode=config
+RemainAfterExit=yes
+TimeoutSec=0
+
+# Output needs to appear in instance console output
+StandardOutput=journal+console
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+cat << EOF > "chroot/usr/lib64/systemd/system/cloud-config.target"
+[Unit]
+Description=Cloud-config availability
+Requires=cloud-init-local.service cloud-init.service
+EOF
+
+cat << EOF > "chroot/usr/lib64/systemd/system/cloud-final.service"
+[Unit]
+Description=Execute cloud user/final scripts
+After=network-online.target syslog.target cloud-config.service rc-local.service
+Requires=cloud-config.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/cloud-init modules --mode=final
+RemainAfterExit=yes
+TimeoutSec=0
+
+# Output needs to appear in instance console output
+StandardOutput=journal+console
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+cat << EOF > "chroot/usr/lib64/systemd/system/cloud-init-local.service"
+[Unit]
+Description=Initial cloud-init job (pre-networking)
+Wants=local-fs.target
+Before=network.target
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/cloud-init init --local
+RemainAfterExit=yes
+TimeoutSec=0
+
+# Output needs to appear in instance console output
+StandardOutput=journal+console
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+cat << EOF > "chroot/usr/lib64/systemd/system/cloud-init.service"
+[Unit]
+Description=Initial cloud-init job (metadata service crawler)
+After=local-fs.target network-online.target cloud-init-local.service
+Before=sshd.service
+Requires=network-online.target
+Wants=local-fs.target cloud-init-local.service sshd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/cloud-init init
+RemainAfterExit=yes
+TimeoutSec=0
+
+# Output needs to appear in instance console output
+StandardOutput=journal+console
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
 # Enable LVM socket daemons
 for socket in lvm2-lvmetad dm-event; do
 ln -s "/usr/lib64/systemd/system/${socket}.socket" \
