@@ -85,6 +85,7 @@ net-misc/curl
 net-fs/nfs-utils
 net-wireless/wpa_supplicant
 sys-apps/dbus
+sys-apps/dmidecode
 sys-apps/gentoo-systemd-integration
 sys-apps/iproute2
 sys-apps/pciutils
