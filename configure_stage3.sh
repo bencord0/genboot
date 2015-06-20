@@ -119,6 +119,7 @@ Wants=local-fs.target cloud-init-local.service sshd.service
 
 [Service]
 Type=oneshot
+ExecStartPre=-/usr/bin/sleep 5
 ExecStart=/usr/bin/cloud-init init
 RemainAfterExit=yes
 TimeoutSec=0
