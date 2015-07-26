@@ -31,13 +31,11 @@ sys-kernel/dracut
 EOF
 
 cat << EOF > stage-template/etc/portage/package.mask
-# Workaround for gentoo bug#546882
-=dev-libs/boost-1.55.0-r2
-=dev-util/boost-build-1.55.0
 # Fails to configure, being replaced by npth in gnupg-2.1
 # Revert to gnupg-1 in the meantime
 =app-crypt/gnupg-2.0*
 dev-libs/pth
+
 # udev is replaced by systemd
 sys-fs/udev
 EOF
