@@ -39,8 +39,6 @@ for svc in config final init init-local; do
 ln -s "/usr/lib64/systemd/system/cloud-${svc}.service" \
     "chroot/etc/systemd/system/multi-user.target.wants/cloud-${svc}.service"
 done
-cp cloud.cfg chroot/etc/cloud/cloud.cfg
-cp 05_logging.cfg chroot/etc/cloud/cloud.cfg.d/05_logging.cfg
 
 # Rewrite cloud init service files
 cat << EOF > "chroot/usr/lib64/systemd/system/cloud-config.service"
