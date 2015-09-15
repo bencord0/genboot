@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 
-I=/root/gentoo-openstack.img
+I=/root/gentoo-systemd.img
 M=mountpath
 Q="$(basename "$I" .img).qcow2"
 rm -f "$I"
@@ -45,6 +45,7 @@ trap 'clean_up_all' EXIT
 
 mkdir "$M"/boot
 cp /root/vmlinuz.nosquash "$M/boot/vmlinuz"
+cp /root/initramfs.nosquash "$M/boot/initramfs"
 chroot "$M" grub2-install "$L"
 
 cat << EOF > "$M/boot/grub/grub.cfg"
@@ -60,6 +61,7 @@ menuentry 'Gentoo GNU/Linux' --class gentoo --class gnu-linux --class gnu --clas
   insmod ext2
   echo    'Loading Gentoo GNU/Linux ...'
   linux   /boot/vmlinuz root=/dev/vda1 ro init=/usr/lib/systemd/systemd console=ttyS0 
+  initrd  /boot/initramfs
 }
 EOF
 
