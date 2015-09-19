@@ -143,12 +143,6 @@ chown root chroot/var/empty
 ln -s '/usr/lib64/systemd/system/sshd.service' \
     'chroot/etc/systemd/system/multi-user.target.wants/sshd.service'
 
-# Allow NFS client mounts
-ln -s '/usr/lib64/systemd/system/nfs-client.target' \
-    'chroot/etc/systemd/system/multi-user.target.wants/nfs-client.target'
-ln -s '/usr/lib64/systemd/system/nfs-client.target' \
-    'chroot/etc/systemd/system/remote-fs.target.wants/nfs-client.target'
-
 rm -f /root/systemd.squashfs || true
 rm -f /root/stage3-systemd.tar.xz || true
 
