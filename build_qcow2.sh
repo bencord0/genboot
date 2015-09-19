@@ -3,7 +3,7 @@ set -x
 
 I=/root/gentoo-systemd.img
 M=mountpath
-Q="$(basename "$I" .img).qcow2"
+Q="/root/$(basename "$I" .img).qcow2"
 rm -f "$I"
 rm -f "$Q"
 
