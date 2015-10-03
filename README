@@ -160,6 +160,7 @@ ls -l initramfs.nosquash    # Normal initramfs (with modules), no rootfs
 # This is the ultimate build artifact, a self contained kernel image
 # with the bundled initramfs and squashfs/overlayfs live environment.
 ls -l vmlinuz               # Single kernel image, with initramfs and rootfs
+ls -l gentoo-systemd.qcow2  # Cloud-init compatible VM image
 
 # To install a new system, PXE boot into the bundled kernel image, partition and
 # create a filesystem and then extract the stage3 tarball, linux-image tarball
