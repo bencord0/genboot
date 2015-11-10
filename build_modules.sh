@@ -4,6 +4,10 @@ EMERGE_FLAGS="--buildpkg --getbinpkg --update --jobs --deep --newuse"
 MAKEOPTS="-j$(grep processor /proc/cpuinfo|wc -l)"
 
 emerge $EMERGE_FLAGS --usepkg  sys-kernel/gentoo-sources
+
+latest_kernel=$(eselect kernel list | tail -n 1 | awk '{print $2}')
+eselect kernel set "${latest_kernel}"
+
 cp config.nosquash /usr/src/linux/.config
 
 cd /usr/src/linux
