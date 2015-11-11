@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set -xe
 MAKEOPTS="-j$(grep processor /proc/cpuinfo|wc -l)"
 
 cp config /usr/src/linux/.config

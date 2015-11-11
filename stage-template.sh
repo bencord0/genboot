@@ -1,10 +1,11 @@
 #!/bin/bash
-set -x
+set -xe
 
 DIRS="
     dev
     etc/portage/package.keywords
     etc/portage/package.use
+    etc/portage/postsync.d
     etc/portage/repos.conf
     home
     lib32

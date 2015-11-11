@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set -xe
 
 I=/root/gentoo-systemd.img
 M=mountpath

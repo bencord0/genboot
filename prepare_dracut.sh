@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set -xe
 cd /usr/lib/dracut/modules.d
 
 

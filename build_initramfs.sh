@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set -xe
 KVER=$(cd /usr/src/linux; make kernelrelease)
 
 # Dracut is needed on the host

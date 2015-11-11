@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 ## Step 3: Configure the system
 # Blank out the default root password

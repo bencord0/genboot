@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set -xe
 EMERGE_FLAGS="--buildpkg --getbinpkg --update --jobs --deep --newuse"
 MAKEOPTS="-j$(grep processor /proc/cpuinfo|wc -l)"
 
