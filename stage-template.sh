@@ -57,7 +57,11 @@ ln -sf /usr/portage/profiles/default/linux/amd64/13.0 stage-template/etc/make.pr
 cat << EOF > stage-template/etc/portage/make.conf
 ACCEPT_KEYWORDS="amd64"
 EMERGE_DEFAULT_OPTS="--usepkg"
-FEATURES="buildpkg parallel-fetch parallel-install"
+FEATURES="buildpkg binpkg-multi-instance parallel-fetch parallel-install"
+PORTAGE_RO_DISTDIRS="/usr/portage/distfiles"
+DISTDIR="/var/lib/portage/distfiles/"
+PKGDIR="/var/lib/portage/packages/"
+RPMDIR="/var/lib/portage/rpms/"
 USE="-consolekit systemd"
 EOF
 
