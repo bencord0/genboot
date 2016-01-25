@@ -30,6 +30,6 @@ unsquashfs -d "$M" -f /root/systemd.squashfs
 clean_up
 trap - EXIT
 
-e2fsck -f "$I"
+e2fsck -fy "$I"
 resize2fs -M "$I"
 xz "$I" && rm -f "$I"
