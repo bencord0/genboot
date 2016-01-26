@@ -91,6 +91,7 @@ emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
 ## Step 3: Install everything, in place, quickly.
 # --emptytree is used, replacing --update to force a reinstall
 # of all packages to pickup portage installed users and groups.
-systemd-nspawn --bind /usr/portage -D $ROOT emerge --emptytree \
-    --usepkgonly --jobs --with-bdeps=n --complete-graph=y world
+systemd-nspawn --bind /usr/portage --bind /var/lib/portage/packages \
+    -D $ROOT emerge --emptytree --usepkgonly --jobs \
+    --with-bdeps=n --complete-graph=y world
 
