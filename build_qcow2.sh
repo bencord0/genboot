@@ -24,6 +24,7 @@ mkdir -p "$M"
 
 mount "$L"p1 "$M" || exit 1
 function clean_up_loop () {
+    set +e
     umount -l "$M"
     losetup -d "$L"
     rm -d "$M"
@@ -38,6 +39,7 @@ mount --bind {,"$M"}/proc
 mount --bind {,"$M"}/sys
 
 function clean_up_all () {
+    set +e
     umount "$M"/{sys,proc,dev/pts,dev,}
     clean_up_loop
 }

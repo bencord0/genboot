@@ -20,6 +20,7 @@ ls /dev/loop0 || mknod /dev/loop0 b 7 0 || {
 
 mount -o loop "$I" "$M" || exit 1
 function clean_up () {
+    set +e
     umount -l "$M"
     rm -d "$M"
 }
