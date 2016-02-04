@@ -22,7 +22,7 @@ mkdir -p \
 
 # Start systemd services
 for svc in networkd resolved timesyncd; do
-ln -sf"/usr/lib64/systemd/system/systemd-${svc}.service" \
+ln -sf "/usr/lib64/systemd/system/systemd-${svc}.service" \
     "chroot/etc/systemd/system/multi-user.target.wants/systemd-${svc}.service"
 done
 cat << EOF > chroot/etc/systemd/network/dhcp.network
@@ -37,7 +37,7 @@ ln -sf /run/systemd/resolve/resolv.conf chroot/etc/resolv.conf
 # Cloud-init
 ## Bug: cloud-init.service should not need sshd-keygen.service in Gentoo
 for svc in config final init init-local; do
-ln -sf"/usr/lib64/systemd/system/cloud-${svc}.service" \
+ln -sf "/usr/lib64/systemd/system/cloud-${svc}.service" \
     "chroot/etc/systemd/system/multi-user.target.wants/cloud-${svc}.service"
 done
 
@@ -132,7 +132,7 @@ EOF
 
 # Enable LVM socket daemons
 for socket in lvm2-lvmetad dm-event; do
-ln -sf"/usr/lib64/systemd/system/${socket}.socket" \
+ln -sf "/usr/lib64/systemd/system/${socket}.socket" \
     "chroot/etc/systemd/system/multi-user.target.wants/${socket}.socket"
 done
 
@@ -141,7 +141,7 @@ echo > chroot/etc/machine-id
 
 # SSH oddity
 chown root chroot/var/empty
-ln -sf'/usr/lib64/systemd/system/sshd.service' \
+ln -sf '/usr/lib64/systemd/system/sshd.service' \
     'chroot/etc/systemd/system/multi-user.target.wants/sshd.service'
 
 rm -f /root/systemd.squashfs || true
