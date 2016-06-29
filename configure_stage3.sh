@@ -9,6 +9,7 @@ sed -i -e '/root/ s/*//' chroot/etc/shadow
 cat << EOF > "chroot/etc/fstab"
 /dev/vda / auto defaults 0 0
 /dev/xvda / auto defaults 0 0
+/dev/sda1 / auto defaults 0 0
 EOF
 
 # List mounts correctly
