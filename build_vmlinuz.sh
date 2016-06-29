@@ -1,6 +1,6 @@
 #!/bin/bash
 set -xe
-MAKEOPTS="-j$(grep processor /proc/cpuinfo|wc -l)"
+MAKEOPTS="-j$(nproc)"
 
 cp config /usr/src/linux/.config
 

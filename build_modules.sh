@@ -1,7 +1,7 @@
 #!/bin/bash
 set -xe
 EMERGE_FLAGS="--buildpkg --getbinpkg --update --jobs --deep --newuse"
-MAKEOPTS="-j$(grep processor /proc/cpuinfo|wc -l)"
+MAKEOPTS="-j$(nproc)"
 
 emerge $EMERGE_FLAGS --usepkg  sys-kernel/gentoo-sources
 
