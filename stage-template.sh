@@ -29,10 +29,6 @@ cat << EOF > stage-template/etc/locale.gen
 en_GB.UTF-8 UTF-8
 EOF
 
-cat << EOF > stage-template/etc/portage/package.keywords/app-emulation
-app-emulation/cloud-init
-EOF
-
 cat << EOF > stage-template/etc/portage/package.keywords/sys-boot
 sys-boot/os-prober
 EOF
