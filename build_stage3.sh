@@ -86,7 +86,7 @@ emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
     --oneshot --nodeps $DBUS_DEPS2
 emerge $EMERGE_FLAGS --usepkgonly --config-root=$ROOT --root=$ROOT \
-    --root-deps --with-bdeps=y --complete-graph=y system
+    --root-deps --with-bdeps=n --complete-graph=y system
 
 ## Step 3: Install everything, in place, quickly.
 # --emptytree is used, replacing --update to force a reinstall
