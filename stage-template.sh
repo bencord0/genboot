@@ -74,6 +74,7 @@ chmod +x stage-template/etc/portage/postsync.d/eix-update
 cat << EOF > stage-template/var/lib/portage/world
 app-admin/ansible
 app-admin/sudo
+app-admin/sysstat
 app-editors/vim
 app-emulation/cloud-init
 app-portage/eix
@@ -90,6 +91,7 @@ net-fs/nfs-utils
 net-wireless/wpa_supplicant
 sys-apps/dbus
 sys-apps/dmidecode
+sys-apps/flashrom
 sys-apps/gentoo-systemd-integration
 sys-apps/iproute2
 sys-apps/pciutils
