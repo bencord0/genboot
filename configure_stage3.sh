@@ -34,13 +34,6 @@ DHCP=both
 EOF
 ln -sf /run/systemd/resolve/resolv.conf chroot/etc/resolv.conf
 
-# Cloud-init
-## Bug: cloud-init.service should not need sshd-keygen.service in Gentoo
-for svc in config final init init-local; do
-ln -sf "/usr/lib64/systemd/system/cloud-${svc}.service" \
-    "chroot/etc/systemd/system/multi-user.target.wants/cloud-${svc}.service"
-done
-
 # Rewrite cloud init service files
 cat << EOF > "chroot/usr/lib64/systemd/system/cloud-config.service"
 [Unit]

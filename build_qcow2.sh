@@ -67,6 +67,11 @@ menuentry 'Gentoo GNU/Linux' --class gentoo --class gnu-linux --class gnu --clas
 }
 EOF
 
+# Enable cloud-init
+for svc in config final init init-local; do
+    ln -sf "/usr/lib64/systemd/system/cloud-${svc}.service" \
+        "$M/etc/systemd/system/multi-user.target.wants/cloud-${svc}.service"
+done
 
 clean_up_all
 trap - EXIT
