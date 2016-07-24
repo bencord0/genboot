@@ -82,6 +82,7 @@ app-portage/gentoolkit
 app-portage/layman
 app-portage/portage-utils
 dev-python/virtualenv
+dev-util/pkgconfig
 dev-vcs/git
 mail-mta/opensmtpd
 net-dns/bind-tools
