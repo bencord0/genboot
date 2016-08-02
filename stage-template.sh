@@ -23,7 +23,7 @@ for dir in $DIRS; do
     mkdir -p stage-template/$dir
 done
 
-ln -s lib64 stage-template/lib
+ln -sf lib64 stage-template/lib
 
 cat << EOF > stage-template/etc/locale.gen
 en_GB.UTF-8 UTF-8
