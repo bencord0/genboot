@@ -19,6 +19,7 @@ ln -sf /proc/mounts chroot/etc/mtab
 mkdir -p \
     "chroot/etc/systemd/system/multi-user.target.wants" \
     "chroot/etc/systemd/system/remote-fs.target.wants" \
+    "chroot/etc/systemd/system/cloud.target.wants"
 
 
 # Start systemd services
@@ -65,7 +66,7 @@ EOF
 cat << EOF > "chroot/usr/lib64/systemd/system/cloud-final.service"
 [Unit]
 Description=Execute cloud user/final scripts
-After=network-online.target syslog.target cloud-config.service rc-local.service
+After=network-online.target syslog.target cloud-config.target cloud-config.service rc-local.service
 Requires=cloud-config.target
 Wants=network-online.target
 
@@ -122,6 +123,26 @@ StandardOutput=journal+console
 
 [Install]
 WantedBy=multi-user.target
+EOF
+
+cat << EOF > "chroot/etc/systemd/system/cloud.target"
+[Unit]
+Requires=default.target
+After=default.target
+AllowIsolate=yes
+EOF
+
+# Enable Cloud-init
+for svc in cloud-config.target cloud-config.service cloud-final.service; do
+ln -sf "/usr/lib64/systemd/system/${svc}" \
+    "chroot/etc/systemd/system/cloud.target.wants/${svc}"
+done
+
+# Fix nfs clients
+cat << EOF > "chroot/usr/lib64/systemd/system/rpcbind.target"
+[Unit]
+Requires=rpcbind.service
+After=rpcbind.service
 EOF
 
 # Enable LVM socket daemons
