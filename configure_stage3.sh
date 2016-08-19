@@ -29,7 +29,7 @@ ln -sf "/usr/lib64/systemd/system/systemd-${svc}.service" \
 done
 cat << EOF > chroot/etc/systemd/network/dhcp.network
 [Match]
-Name=e*
+Name=*
 
 [Network]
 DHCP=both
