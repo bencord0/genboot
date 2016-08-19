@@ -5,4 +5,4 @@ eclean-dist &
 eclean-pkg &
 wait
 
-tar cJf /root/portage.tar.xz -C /usr portage
+tar chJf /root/portage.tar.xz -C /usr portage/
