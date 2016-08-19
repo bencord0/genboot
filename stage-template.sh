@@ -6,6 +6,7 @@ DIRS="
     etc/portage/package.keywords
     etc/portage/package.use
     etc/portage/postsync.d
+    etc/portage/profile
     etc/portage/repos.conf
     home
     lib32
@@ -33,13 +34,23 @@ cat << EOF > stage-template/etc/portage/package.keywords/sys-boot
 sys-boot/os-prober
 EOF
 
+cat << EOF > stage-template/etc/portage/package.keywords/sys-fs
+sys-fs/zfs **
+sys-fs/zfs-kmod **
+EOF
+
 cat << EOF > stage-template/etc/portage/package.keywords/sys-kernel
 sys-kernel/dracut
+sys-kernel/spl **
 EOF
 
 cat << EOF > stage-template/etc/portage/package.mask
 # udev is replaced by systemd
 sys-fs/udev
+EOF
+
+cat << EOF > stage-template/etc/portage/profile/package.use.mask
+sys-fs/zfs -kernel-builtin
 EOF
 
 cat << EOF > stage-template/etc/portage/package.use/dev-lang
@@ -52,6 +63,10 @@ EOF
 
 cat << EOF > stage-template/etc/portage/package.use/sys-boot
 sys-boot/grub device-mapper
+EOF
+
+cat << EOF > stage-template/etc/portage/package.use/sys-fs
+sys-fs/zfs kernel-builtin
 EOF
 
 ln -sf /usr/portage/profiles/default/linux/amd64/13.0 stage-template/etc/make.profile
