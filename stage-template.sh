@@ -131,4 +131,21 @@ sys-kernel/linux-firmware
 sys-process/htop
 EOF
 
+cat << EOF > stage-template/etc/nsswitch.conf
+passwd:      compat mymachines
+group:       compat mymachines
+shadow:      compat
+hosts:       files resolve mymachines myhostname
+networks:    files dns
+services:    db files
+protocols:   db files
+rpc:         db files
+ethers:      db files
+netmasks:    files
+netgroup:    files
+bootparams:  files
+automount:   files
+aliases:     files
+EOF
+
 tar czf stage-template.tar.gz -C stage-template .
