@@ -48,7 +48,7 @@ trap 'clean_up_all' EXIT
 mkdir "$M"/boot
 cp /root/vmlinuz.nosquash "$M/boot/vmlinuz"
 cp /root/initramfs.nosquash "$M/boot/initramfs"
-chroot "$M" grub2-install "$L"
+chroot "$M" grub-install "$L"
 
 cat << EOF > "$M/boot/grub/grub.cfg"
 serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1
