@@ -49,7 +49,6 @@ Type=oneshot
 ExecStart=/usr/bin/cloud-init modules --mode=config
 RemainAfterExit=yes
 TimeoutSec=0
-Restart=on-failure
 
 # Output needs to appear in instance console output
 StandardOutput=journal+console
@@ -76,7 +75,6 @@ Type=oneshot
 ExecStart=/usr/bin/cloud-init modules --mode=final
 RemainAfterExit=yes
 TimeoutSec=0
-Restart=on-failure
 
 # Output needs to appear in instance console output
 StandardOutput=journal+console
@@ -97,7 +95,6 @@ Type=oneshot
 ExecStart=/usr/bin/cloud-init init --local
 RemainAfterExit=yes
 TimeoutSec=0
-Restart=on-failure
 
 # Output needs to appear in instance console output
 StandardOutput=journal+console
@@ -120,7 +117,6 @@ ExecStartPre=-/usr/bin/sleep 5
 ExecStart=/usr/bin/cloud-init init
 RemainAfterExit=yes
 TimeoutSec=0
-Restart=on-failure
 
 # Output needs to appear in instance console output
 StandardOutput=journal+console
