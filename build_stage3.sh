@@ -32,7 +32,7 @@ tar xavpf stage-template.tar.gz -C chroot-prepare && {
 
 # parallelism bug in make-4.1?
 #    grep MAKEOPTS /etc/portage/make.conf >> chroot-prepare/etc/portage/make.conf
-    grep PORTAGE_BINHOST /etc/portage/make.conf >> chroot-prepare/etc/portage/make.conf
+    grep PORTAGE_BINHOST /etc/portage/make.conf >> chroot-prepare/etc/portage/make.conf || true
 
     cp /etc/portage/repos.conf/gentoo.conf chroot-prepare/etc/portage/repos.conf/gentoo.conf
 }
