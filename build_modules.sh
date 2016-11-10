@@ -8,6 +8,9 @@ emerge $EMERGE_FLAGS --usepkg  sys-kernel/gentoo-sources
 latest_kernel=$(eselect kernel list | tail -n 1 | awk '{print $2}')
 eselect kernel set "${latest_kernel}"
 
+cp config.nosquash /usr/src/linux/.config
+(cd /usr/src/linux; make olddefconfig prepare scripts)
+
 # Copy ZFS source into kernel tree
 env EXTRA_ECONF='--enable-linux-builtin' ebuild /usr/portage/sys-kernel/spl/spl-9999.ebuild clean configure
 (cd /var/tmp/portage/sys-kernel/spl-9999/work/spl-9999 && ./copy-builtin /usr/src/linux)
