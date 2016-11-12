@@ -5,4 +5,6 @@ eclean-dist &
 eclean-pkg &
 wait
 
-tar chJf /root/portage.tar.xz -C /usr portage/
+tar cf /root/portage.tar -C /usr portage/
+tar uf /root/portage.tar -C /var/lib/portage distfiles/ packages/
+xz /root/portage.tar
