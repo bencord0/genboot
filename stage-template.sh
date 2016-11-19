@@ -100,6 +100,7 @@ app-portage/eix
 app-portage/gentoolkit
 app-portage/layman
 app-portage/portage-utils
+dev-python/cheetah
 dev-python/virtualenv
 dev-util/pkgconfig
 dev-vcs/git
