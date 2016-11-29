@@ -127,6 +127,7 @@ sys-fs/lvm2
 sys-fs/squashfs-tools
 sys-fs/xfsdump
 sys-fs/xfsprogs
+sys-fs/zfs
 sys-kernel/dracut
 sys-kernel/linux-firmware
 sys-process/htop
