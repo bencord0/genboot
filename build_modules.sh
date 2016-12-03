@@ -21,13 +21,15 @@ cp config.nosquash /usr/src/linux/.config
 
 cd /usr/src/linux
 
+kernelrelease="$(make kernelrelease)"
 make olddefconfig
 make kvmconfig
 make $MAKEOPTS modules
 make modules_install
+depmod -av "${kernelrelease}"
 
 # Build a kernel release too (no initramfs)
 make $MAKEOPTS tarxz-pkg
 cp arch/x86/boot/bzImage /root/vmlinuz.nosquash
 
-cp linux-"$(make kernelrelease)"-x86.tar.xz /root/linux-image.tar.xz
+cp linux-"${kernelrelease}"-x86.tar.xz /root/linux-image.tar.xz
