@@ -81,4 +81,4 @@ eix -qI app-emulation/qemu || emerge $EMERGE_FLAGS --usepkg --oneshot \
     app-emulation/qemu
 
 qemu-img convert -c -f raw -O qcow2 "$I" "$Q"
-zx "$I"
+xz "$I"
