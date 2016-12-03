@@ -80,5 +80,4 @@ EMERGE_FLAGS="--buildpkg --getbinpkg --update --jobs --deep --newuse"
 eix -qI app-emulation/qemu || emerge $EMERGE_FLAGS --usepkg --oneshot \
     app-emulation/qemu
 
-# Delete the raw image, only if conversion was successful.
-qemu-img convert -c -f raw -O qcow2 "$I" "$Q" && rm "$I"
+qemu-img convert -c -f raw -O qcow2 "$I" "$Q"
