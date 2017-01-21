@@ -28,6 +28,7 @@ ln -sf lib64 stage-template/lib
 
 cat << EOF > stage-template/etc/locale.gen
 en_GB.UTF-8 UTF-8
+en_US.UTF-8 UTF-8
 EOF
 
 cat << EOF > stage-template/etc/portage/package.keywords/sys-boot
