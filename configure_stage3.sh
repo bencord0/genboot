@@ -33,6 +33,9 @@ Name=*
 
 [Network]
 DHCP=both
+
+[DHCP]
+UseDomains=yes
 EOF
 ln -sf /run/systemd/resolve/resolv.conf chroot/etc/resolv.conf
 
