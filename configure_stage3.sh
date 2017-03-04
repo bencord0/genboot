@@ -154,6 +154,10 @@ ln -sf "/usr/lib64/systemd/system/${socket}.socket" \
     "chroot/etc/systemd/system/multi-user.target.wants/${socket}.socket"
 done
 
+# Mount zfs filesystems on boot
+ln -sf "/usr/lib64/systemd/system/zfs.service" \
+    "chroot/etc/systemd/system/multi-user.target.wants/zfs.service"
+
 # Uniqueness
 echo > chroot/etc/machine-id
 
