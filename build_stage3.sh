@@ -95,3 +95,5 @@ systemd-nspawn --bind /usr/portage --bind /var/lib/portage/packages \
     -D $ROOT emerge --emptytree --usepkgonly --jobs \
     --with-bdeps=n --complete-graph=y world
 
+# shellcheck: this is safe, even if $ROOT is unset
+rm -d $ROOT/var/tmp/portage/._unmerge_
