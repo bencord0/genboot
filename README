@@ -91,16 +91,7 @@
 # Set SYNC and GENTOO_MIRRORS variables in /etc/portage/make.conf to
 # use a local (and preferably internal) mirror to reduce load on upstream
 # Gentoo infrastructure.
-set -x
-
-time emerge --sync --quiet
-
-# Run /usr/bin/passwd to set a password to enable remote logins.
-# (optional) passwd
-
-# Otherwise, now is a good time to add a /root/.ssh/authorized_keys file.
-
-set -e
+set -xe
 
 # If binutils is not installed in $ROOT/usr/portage/profiles
 # programs like ar and ld can't be found.
