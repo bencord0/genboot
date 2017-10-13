@@ -126,6 +126,7 @@ bash prepare_dracut.sh
 bash build_initramfs.sh
 bash build_vmlinuz.sh
 bash build_fsimg.sh
+bash build_iso.sh
 bash build_qcow2.sh
 bash pack_portdir.sh
 
@@ -152,6 +153,8 @@ ls -l initramfs.nosquash    # Normal initramfs (with modules), no rootfs
 # with the bundled initramfs and squashfs/overlayfs live environment.
 ls -l vmlinuz               # Single kernel image, with initramfs and rootfs
 ls -l gentoo-systemd.qcow2  # Cloud-init compatible VM image
+ls -l rootfs.img.xz         # Ext4 filesystem based rootfs, good for AMIs
+ls -l gentoo-systemd.iso    # ISO-9660 bootable image
 
 # To install a new system, PXE boot into the bundled kernel image, partition and
 # create a filesystem and then extract the stage3 tarball, linux-image tarball
