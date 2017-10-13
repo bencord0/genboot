@@ -122,7 +122,9 @@ sys-apps/usbutils
 sys-boot/grub
 sys-boot/os-prober
 sys-boot/syslinux
+sys-devel/bc
 sys-fs/btrfs-progs
+sys-fs/cryptsetup
 sys-fs/dosfstools
 sys-fs/lvm2
 sys-fs/squashfs-tools
