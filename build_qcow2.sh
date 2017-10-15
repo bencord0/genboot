@@ -77,7 +77,7 @@ clean_up_all
 trap - EXIT
 
 EMERGE_FLAGS="--buildpkg --getbinpkg --update --jobs --deep --newuse"
-eix -qI app-emulation/qemu || emerge $EMERGE_FLAGS --usepkg --oneshot \
+eix -qI app-emulation/qemu || env QEMU_SOFTMMU_TARGETS='' emerge $EMERGE_FLAGS --usepkg --oneshot \
     app-emulation/qemu
 
 qemu-img convert -c -f raw -O qcow2 "$I" "$Q"
