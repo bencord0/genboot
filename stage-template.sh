@@ -63,7 +63,7 @@ dev-lang/python sqlite
 EOF
 
 cat << EOF > stage-template/etc/portage/package.use/sys-apps
-sys-apps/systemd curl gcrypt importd lzma
+sys-apps/systemd cryptsetup curl gcrypt gnuefi importd lzma
 EOF
 
 cat << EOF > stage-template/etc/portage/package.use/sys-boot
