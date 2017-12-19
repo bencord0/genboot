@@ -74,7 +74,7 @@ cat << EOF > stage-template/etc/portage/package.use/sys-fs
 sys-fs/zfs kernel-builtin
 EOF
 
-ln -sf /usr/portage/profiles/default/linux/amd64/13.0 stage-template/etc/make.profile
+ln -sf /usr/portage/profiles/default/linux/amd64/17.0/systemd stage-template/etc/make.profile
 
 cat << EOF > stage-template/etc/portage/make.conf
 ACCEPT_KEYWORDS="amd64"
