@@ -121,7 +121,6 @@ sys-apps/dbus
 sys-apps/dmidecode
 sys-apps/flashrom
 sys-apps/gentoo-systemd-integration
-sys-apps/iproute2
 sys-apps/pciutils
 sys-apps/systemd
 sys-apps/usbutils
