@@ -19,7 +19,7 @@ ls /dev/loop0 || mknod /dev/loop0 b 7 0 || {
 }
 
 L="$(losetup -Pf --show "$I")"
-mkfs.ext4 "$L"p1
+mkfs.ext4 -v -d chroot "$L"p1
 mkdir -p "$M"
 
 mount "$L"p1 "$M" || exit 1
@@ -30,8 +30,6 @@ function clean_up_loop () {
     rm -d "$M"
 }
 trap 'clean_up_loop' EXIT
-
-unsquashfs -d "$M" -f /root/systemd.squashfs
 
 mount --bind {,"$M"}/dev
 mount --bind {,"$M"}/dev/pts
