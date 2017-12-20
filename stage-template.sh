@@ -111,7 +111,6 @@ dev-util/pkgconfig
 dev-vcs/git
 mail-mta/opensmtpd
 net-dns/bind-tools
-net-firewall/ipset
 net-misc/bridge-utils
 net-misc/casync
 net-misc/curl
