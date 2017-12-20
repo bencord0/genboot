@@ -2,35 +2,16 @@
 set -xe
 
 I=/root/rootfs.img
-M=mountpath
 
 rm -f "$I"
 rm -f "$I".xz
-truncate -s2G "$I"
-mkfs.ext4 "$I"
 
-mkdir -p "$M"
+# Create an ext4 filesystem from a directory
+mkfs.ext4 -v -d chroot "$I" 2G
 
-# In some container environments, a loop device might not be available.
-ls /dev/loop0 || mknod /dev/loop0 b 7 0 || {
-    echo "Unable to use loop devices."
-    echo "Skipping rootfs.img."
-    exit 0
-}
-
-mount -o loop "$I" "$M" || exit 1
-function clean_up () {
-    set +e
-    umount -l "$M"
-    rm -d "$M"
-}
-trap 'clean_up' EXIT
-
-unsquashfs -d "$M" -f /root/systemd.squashfs
-
-clean_up
-trap - EXIT
-
+# Minimize the filesystem
 e2fsck -fy "$I"
 resize2fs -M "$I"
+
+# Compress the filesystem
 xz "$I" && rm -f "$I"
