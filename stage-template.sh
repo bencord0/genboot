@@ -62,6 +62,10 @@ cat << EOF > stage-template/etc/portage/package.use/dev-lang
 dev-lang/python sqlite
 EOF
 
+cat << EOF > stage-template/etc/portage/package.use/dev-python
+dev-python/netaddr -cli
+EOF
+
 cat << EOF > stage-template/etc/portage/package.use/sys-apps
 sys-apps/systemd cryptsetup curl gcrypt gnuefi importd lzma
 EOF
@@ -96,7 +100,6 @@ EOF
 chmod +x stage-template/etc/portage/postsync.d/eix-update
 
 cat << EOF > stage-template/var/lib/portage/world
-app-admin/ansible
 app-admin/sudo
 app-admin/sysstat
 app-editors/vim
@@ -105,7 +108,6 @@ app-portage/eix
 app-portage/gentoolkit
 app-portage/layman
 app-portage/portage-utils
-dev-python/cheetah
 dev-python/virtualenv
 dev-util/pkgconfig
 dev-vcs/git
@@ -116,7 +118,6 @@ net-misc/casync
 net-misc/curl
 net-fs/nfs-utils
 net-wireless/wpa_supplicant
-sys-apps/dbus
 sys-apps/dmidecode
 sys-apps/flashrom
 sys-apps/gentoo-systemd-integration
