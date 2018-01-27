@@ -66,6 +66,10 @@ cat << EOF > stage-template/etc/portage/package.use/dev-python
 dev-python/netaddr -cli
 EOF
 
+cat << EOF > stage-template/etc/portage/package.use/net-firewall
+net-firewall/iptables conntrack netlink
+EOF
+
 cat << EOF > stage-template/etc/portage/package.use/sys-apps
 sys-apps/systemd cryptsetup curl gcrypt gnuefi importd lzma
 EOF
