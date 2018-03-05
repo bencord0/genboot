@@ -86,8 +86,8 @@ ln -sf /usr/portage/profiles/default/linux/amd64/17.0/systemd stage-template/etc
 
 cat << EOF > stage-template/etc/portage/make.conf
 ACCEPT_KEYWORDS="amd64"
-EMERGE_DEFAULT_OPTS="--usepkg"
-FEATURES="buildpkg binpkg-multi-instance parallel-fetch parallel-install"
+EMERGE_DEFAULT_OPTS="--usepkg --autounmask-backtrack=y"
+FEATURES="buildpkg binpkg-multi-instance parallel-fetch parallel-install userfetch userpriv usersync"
 PORTAGE_RO_DISTDIRS="/usr/portage/distfiles"
 DISTDIR="/var/lib/portage/distfiles/"
 PKGDIR="/var/lib/portage/packages/"
