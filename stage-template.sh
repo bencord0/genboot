@@ -146,9 +146,9 @@ sys-process/htop
 EOF
 
 cat << EOF > stage-template/etc/nsswitch.conf
-passwd:      compat mymachines
-group:       compat mymachines
-shadow:      compat
+passwd:      mymachines files
+group:       mymachines files
+shadow:      files
 hosts:       files resolve mymachines myhostname
 networks:    files dns
 services:    db files
