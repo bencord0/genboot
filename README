@@ -10,12 +10,18 @@
 #
 # $ qemu-system-x86_64 \
 # $     -m 10G \
+# $     -enable-kvm \
 # $     -smp 6 \
 # $     -kernel vmlinuz \
 # $     -net nic,model=virtio \
 # $     -net user \
 # $     -nographic \
-# $     -append console=ttyS0
+# $     -append console=ttyS0 \
+# $     -fsdev local,id=portage,path=/usr/portage,security_model=none \
+# $     -device virtio-9p-pci,fsdev=portage,mount_tag=portage
+#
+# Mount the shared portage tree using the plan9 filesystem
+# # mount -t 9p portage /usr/portage
 #
 # Example usage in a Xen environment
 #
