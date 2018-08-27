@@ -18,10 +18,13 @@
 # $     -nographic \
 # $     -append console=ttyS0 \
 # $     -fsdev local,id=portage,path=/usr/portage,security_model=none \
-# $     -device virtio-9p-pci,fsdev=portage,mount_tag=portage
+# $     -fsdev local,id=packages,path=/var/lib/portage/packages,security_model=none \
+# $     -device virtio-9p-pci,fsdev=portage,mount_tag=portage \
+# $     -device virtio-9p-pci,fsdev=packages,mount_tag=packages
 #
-# Mount the shared portage tree using the plan9 filesystem
+# Mount the shared portage and package trees using the plan9 filesystem
 # # mount -t 9p portage /usr/portage
+# # mount -t 9p packages /var/lib/portage/packages
 #
 # Example usage in a Xen environment
 #
