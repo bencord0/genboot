@@ -31,6 +31,14 @@ en_GB.UTF-8 UTF-8
 en_US.UTF-8 UTF-8
 EOF
 
+cat << EOF > stage-template/etc/portage/package.keywords/mail-mta
+mail-mta/opensmtpd
+EOF
+
+cat << EOF > stage-template/etc/portage/package.keywords/net-libs
+net-libs/libasr
+EOF
+
 cat << EOF > stage-template/etc/portage/package.keywords/net-misc
 net-misc/casync
 EOF
