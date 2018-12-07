@@ -83,7 +83,7 @@ sys-apps/systemd cryptsetup curl gcrypt gnuefi importd lzma
 EOF
 
 cat << EOF > stage-template/etc/portage/package.use/sys-boot
-sys-boot/grub device-mapper
+sys-boot/grub device-mapper mount
 EOF
 
 cat << EOF > stage-template/etc/portage/package.use/sys-fs
