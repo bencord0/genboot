@@ -126,18 +126,39 @@ git --version || {
         dev-vcs/git
 }
 
+# These are the steps to run, in order
+STAGES=(
+  stage_template
+  build_stage3
+  configure_stage3
+  build_modules
+  prepare_dracut
+  build_initramfs
+  build_vmlinuz
+  build_fsimg
+  build_iso
+  build_qcow2
+  pack_portdir
+)
+
+# Create chroot and .complete files here
 cd /root/genboot
-bash stage-template.sh
-bash build_stage3.sh
-bash configure_stage3.sh
-bash build_modules.sh
-bash prepare_dracut.sh
-bash build_initramfs.sh
-bash build_vmlinuz.sh
-bash build_fsimg.sh
-bash build_iso.sh
-bash build_qcow2.sh
-bash pack_portdir.sh
+
+# Index the STAGES array, and track the current and next STAGE
+for SEQ in $(seq 0 $((${#STAGES} - 1))); do
+  STAGE="${STAGES[${STAGE}]}"
+  NEXT_STAGE="${STAGES[$((${STAGE} + 1))]}"
+
+  # If the current stage has already run successfully, skip it
+  # If the current stage needs to be rebuilt, also rebuild the next stage
+  if [[ ! -e ".${STAGE}.complete" ]]; then
+    # It is okay if the last +1 stage never exists.
+    rm -f ".${NEXT_STAGE}.complete"
+    bash "${STAGE}.sh" && touch ".${STAGE}.complete"
+  else
+    echo "Skipping stage: ${STAGE}"
+  fi
+done
 
 # Turn off tracing
 set +x
