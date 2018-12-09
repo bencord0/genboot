@@ -170,4 +170,4 @@ rm -f /root/systemd.squashfs || true
 rm -f /root/stage3-systemd.tar.xz || true
 
 tar cJf /root/stage3-systemd.tar.xz -C chroot . &
-mksquashfs chroot /root/systemd.squashfs
+mksquashfs chroot /root/systemd.squashfs -comp xz
