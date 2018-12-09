@@ -146,8 +146,8 @@ cd /root/genboot
 
 # Index the STAGES array, and track the current and next STAGE
 for SEQ in $(seq 0 $((${#STAGES} - 1))); do
-  STAGE="${STAGES[${STAGE}]}"
-  NEXT_STAGE="${STAGES[$((${STAGE} + 1))]}"
+  STAGE="${STAGES[${SEQ}]}"
+  NEXT_STAGE="${STAGES[$((${SEQ} + 1))]}"
 
   # If the current stage has already run successfully, skip it
   # If the current stage needs to be rebuilt, also rebuild the next stage
