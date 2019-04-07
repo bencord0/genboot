@@ -60,14 +60,14 @@ menuentry 'Gentoo GNU/Linux' --class gentoo --class gnu-linux --class gnu --clas
   insmod part_msdos
   insmod ext2
   echo    'Loading Gentoo GNU/Linux ...'
-  linux   /boot/vmlinuz root=/dev/vda1 ro init=/usr/lib/systemd/systemd console=ttyS0 
+  linux   /boot/vmlinuz root=/dev/vda1 ro init=/lib/systemd/systemd console=ttyS0
   initrd  /boot/initramfs
 }
 EOF
 
 # Enable cloud-init
 for svc in config final init init-local; do
-    ln -sf "/usr/lib64/systemd/system/cloud-${svc}.service" \
+    ln -sf "/usrlib64/systemd/system/cloud-${svc}.service" \
         "$M/etc/systemd/system/multi-user.target.wants/cloud-${svc}.service"
 done
 

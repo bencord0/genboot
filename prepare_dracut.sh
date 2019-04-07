@@ -117,5 +117,5 @@ install() {
 EOF
 chmod +x 82initsystemd/module-setup.sh
 
-echo 'init=/usr/lib/systemd/systemd' > 82initsystemd/console-initsystemd.conf
+echo 'init=/lib/systemd/systemd' > 82initsystemd/console-initsystemd.conf
 
