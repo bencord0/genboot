@@ -31,10 +31,6 @@ en_GB.UTF-8 UTF-8
 en_US.UTF-8 UTF-8
 EOF
 
-cat << EOF > stage-template/etc/portage/package.keywords/mail-mta
-mail-mta/opensmtpd
-EOF
-
 cat << EOF > stage-template/etc/portage/package.keywords/net-libs
 net-libs/libasr
 EOF
@@ -123,7 +119,7 @@ app-portage/portage-utils
 dev-python/virtualenv
 dev-util/pkgconfig
 dev-vcs/git
-mail-mta/opensmtpd
+mail-mta/nullmailer
 net-dns/bind-tools
 net-misc/bridge-utils
 net-misc/casync
